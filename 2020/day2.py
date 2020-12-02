@@ -84,5 +84,6 @@ def solve_part2():
                 count += 1
     print(count)
 
+
 solve_part1()
 solve_part2()
