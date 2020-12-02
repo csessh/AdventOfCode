@@ -1,5 +1,4 @@
 #!/Users/thangdo/Documents/dev/csessh/bin/python
-import re
 
 
 def convert(data: str) -> dict:
