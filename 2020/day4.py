@@ -26,11 +26,11 @@ def validate_byr(value: str) -> bool:
     except (ValueError, TypeError):
         return False
 
-# print('--------------- Test validate_byr ---------------')
-# print(validate_byr('2002')) # True
-# print(validate_byr('2003')) # False
-# print(validate_byr(None))   # False
-# print('-------------------------------------------------')
+# ('--------------- Test validate_byr ---------------')
+assert validate_byr('2002') == True
+assert validate_byr('2003') == False
+assert validate_byr(None) == False
+# ('-------------------------------------------------')
 
 
 def validate_iyr(value: str) -> bool:
@@ -43,13 +43,13 @@ def validate_iyr(value: str) -> bool:
     except (ValueError, TypeError):
         return False
 
-# print('--------------- Test validate_iyr ---------------')
-# print(validate_iyr('2010')) # True
-# print(validate_iyr('2020')) # True
-# print(validate_iyr('2009')) # False
-# print(validate_iyr('2021')) # False
-# print(validate_iyr(None))   # False
-# print('-------------------------------------------------')
+# ('--------------- Test validate_iyr ---------------')
+assert validate_iyr('2010') == True
+assert validate_iyr('2020') == True
+assert validate_iyr('2009') == False
+assert validate_iyr('2021') == False
+assert validate_iyr(None) == False
+# ('-------------------------------------------------')
 
 
 def validate_eyr(value: str) -> bool:
@@ -62,13 +62,13 @@ def validate_eyr(value: str) -> bool:
     except (ValueError, TypeError):
         return False
 
-# print('--------------- Test validate_eyr ---------------')
-# print(validate_eyr('2020')) # True
-# print(validate_eyr('2030')) # True
-# print(validate_eyr('2019')) # False
-# print(validate_eyr('2031')) # False
-# print(validate_eyr(None))   # False
-# print('-------------------------------------------------')
+# ('--------------- Test validate_eyr ---------------')
+assert validate_eyr('2020') == True
+assert validate_eyr('2030') == True
+assert validate_eyr('2019') == False
+assert validate_eyr('2031') == False
+assert validate_eyr(None) == False
+# ('-------------------------------------------------')
 
 
 def validate_hgt(value: str) -> bool:
@@ -90,14 +90,14 @@ def validate_hgt(value: str) -> bool:
     else:
         return False
 
-# print('--------------- Test validate_hgt ---------------')
-# print(validate_hgt('59in'))  # True
-# print(validate_hgt('190cm')) # True
-# print(validate_hgt('190in')) # False
-# print(validate_hgt('190'))   # False
-# print(validate_hgt(None))    # False
-# print(validate_hgt('abc'))   # False
-# print('-------------------------------------------------')
+# ('--------------- Test validate_hgt ---------------')
+assert validate_hgt('59in') == True
+assert validate_hgt('190cm') == True
+assert validate_hgt('190in') == False
+assert validate_hgt('190') == False
+assert validate_hgt(None) == False
+assert validate_hgt('abc') == False
+# ('-------------------------------------------------')
 
 
 def validate_hcl(value: str) -> bool:
@@ -111,14 +111,14 @@ def validate_hcl(value: str) -> bool:
         return False
     return False
 
-# print('--------------- Test validate_hcl ---------------')
-# print(validate_hcl('#123abc'))  # True
-# print(validate_hcl('#012abf'))  # True
-# print(validate_hcl('#123abz'))  # False
-# print(validate_hcl('#123ab'))   # False
-# print(validate_hcl('#123abcd')) # False
-# print(validate_hcl(None))       # False
-# print('-------------------------------------------------')
+# ('--------------- Test validate_hcl ---------------')
+assert validate_hcl('#123abc') == True
+assert validate_hcl('#012abf') == True
+assert validate_hcl('#123abz') == False
+assert validate_hcl('#123ab') == False
+assert validate_hcl('#123abcd') == False
+assert validate_hcl(None) == False
+# ('-------------------------------------------------')
 
 
 def validate_ecl(value: str) -> bool:
@@ -127,17 +127,17 @@ def validate_ecl(value: str) -> bool:
     """
     return value in ['amb', 'blu', 'brn', 'gry', 'grn', 'hzl', 'oth']
 
-# print('--------------- Test validate_ecl ---------------')
-# print(validate_ecl('amb')) # True
-# print(validate_ecl('blu')) # True
-# print(validate_ecl('brn')) # True
-# print(validate_ecl('gry')) # True
-# print(validate_ecl('grn')) # True
-# print(validate_ecl('hzl')) # True
-# print(validate_ecl('oth')) # True
-# print(validate_ecl(' '))   # False
-# print(validate_ecl('test')) # False
-# print('-------------------------------------------------')
+# ('--------------- Test validate_ecl ---------------')
+assert validate_ecl('amb') == True
+assert validate_ecl('blu') == True
+assert validate_ecl('brn') == True
+assert validate_ecl('gry') == True
+assert validate_ecl('grn') == True
+assert validate_ecl('hzl') == True
+assert validate_ecl('oth') == True
+assert validate_ecl(' ') == False
+assert validate_ecl('test') == False
+# ('-------------------------------------------------')
 
 
 def validate_pid(value: str) -> bool:
@@ -151,13 +151,13 @@ def validate_pid(value: str) -> bool:
         return False
     return False
 
-# print('--------------- Test validate_pid ---------------')
-# print(validate_pid('000000001'))    # True
-# print(validate_pid('123456789'))    # True
-# print(validate_pid('00000001'))     # False
-# print(validate_pid('0123456789'))   # False
-# print(validate_pid(' '))            # False
-# print('-------------------------------------------------')
+# ('--------------- Test validate_pid ---------------')
+assert validate_pid('000000001') == True
+assert validate_pid('123456789') == True
+assert validate_pid('00000001') == False
+assert validate_pid('0123456789') == False
+assert validate_pid(' ') == False
+# ('-------------------------------------------------')
 
 
 def part2_validity_check(passport: dict) -> bool:
