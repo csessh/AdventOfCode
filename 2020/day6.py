@@ -4,7 +4,7 @@
 # Here's one for you:
 print(sum([len(set(form.replace('\n', ''))) for form in open('test.txt', 'r').read().split('\n\n')]))
 
-# Personally, I think one liner is lame.
+# Personally, I think one liners are lame.
 with open('test.txt', 'r') as f:
     groups = f.read().split('\n\n')
 
@@ -22,3 +22,5 @@ with open('test.txt', 'r') as f:
 
     print(count)
 
+# However, a kind redditor (u/alexisloiselle97) offered theirs:
+print(sum([len(set.intersection(*[set(v) for v in g.split('\n')])) for g in open('test.txt', 'r').read().split('\n\n')]))
