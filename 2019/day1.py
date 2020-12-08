@@ -1,4 +1,7 @@
-def calculate_fuel(mass):
+#!/Users/thangdo/Documents/dev/csessh/bin/python
+
+
+def calculate_fuel(mass: int) -> int:
     fuel = (mass // 3) - 2
     if fuel <= 0:
         return 0
@@ -6,9 +9,8 @@ def calculate_fuel(mass):
     fuel += calculate_fuel(fuel)
     return fuel
 
-if __name__ == '__main__':
-    with open('input.txt') as f:
-        weights = f.readlines()
 
-    total = sum([calculate_fuel(int(mass)) for mass in weights])
-    print(total)
+with open('test.txt', 'r') as f:
+    weights = f.readlines()
+
+print(sum([calculate_fuel(int(mass)) for mass in weights]))
