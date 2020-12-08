@@ -35,7 +35,7 @@ def traverse(steps: list) -> set:
     return set(steps_taken)
 
 
-def retrace(steps: list, destination: Tuple[int, int]) -> int:
+def retrace(steps: list, destination: Tuple[int, int, int]) -> int:
     x = 0
     y = 0
 
@@ -60,21 +60,21 @@ def retrace(steps: list, destination: Tuple[int, int]) -> int:
                 return count
 
 
-A_steps = traverse(paths[0])
-B_steps = traverse(paths[1])
-cross_overs = list(A_steps.intersection(B_steps))
+steps_taken_by_A = traverse(paths[0])
+steps_taken_by_B = traverse(paths[1])
+cross_overs = list(steps_taken_by_A.intersection(steps_taken_by_B))
 cross_overs.sort(key=lambda x: x[2], reverse=False)
 
 # Part 1
 print(cross_overs[0][2])
 
 # Part 2
-distance = None
+minimum_distance = None
 for location in cross_overs:
-    A_retrace = retrace(paths[0], location)
-    B_retrace = retrace(paths[1], location)
+    steps_retraced_by_A = retrace(paths[0], location)
+    steps_retraced_by_B = retrace(paths[1], location)
 
-    if distance is None or A_retrace + B_retrace < distance:
-        distance = A_retrace + B_retrace
+    if minimum_distance is None or steps_retraced_by_A + steps_retraced_by_B < minimum_distance:
+        minimum_distance = steps_retraced_by_A + steps_retraced_by_B
 
-print(distance)
+print(minimum_distance)
