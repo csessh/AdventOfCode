@@ -1,12 +1,10 @@
 #!/Users/thangdo/Documents/dev/csessh/bin/python
 import re
 
+rules = {}
 
 with open('test.txt', 'r') as f:
     ridiculous_rules = f.readlines()
-
-
-rules = {}
 
 
 def can_this_bag_hold_shiny_stuff(bag: str) -> bool:
@@ -50,10 +48,8 @@ def how_many_bags_can_fit_within_this_bag(root: dict, multiplier: int) -> int:
         total += how_many_bags_can_fit_within_this_bag(rules[bag], count*multiplier)
     return total
 
-def solve_part1():
-    for rule in ridiculous_rules:
-        how_many_bags_can_one_bag_carries(rule)
 
+def solve_part1():
     count = 0
     for bag in rules.keys():
         if can_this_bag_hold_shiny_stuff(bag):
@@ -62,13 +58,13 @@ def solve_part1():
 
 
 def solve_part2():
+    shiny_gold = rules['shiny gold']
+    print(how_many_bags_can_fit_within_this_bag(shiny_gold, 1))
+
+
+if __name__ == '__main__':
     for rule in ridiculous_rules:
         how_many_bags_can_one_bag_carries(rule)
 
-    root = rules['shiny gold']
-    total = how_many_bags_can_fit_within_this_bag(root, 1)
-    print(total)
-
-
-solve_part1()
-solve_part2()
+    solve_part1()
+    solve_part2()
