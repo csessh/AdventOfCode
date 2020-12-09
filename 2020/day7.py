@@ -29,14 +29,14 @@ def how_many_bags_can_one_bag_carries(rule: str):
     else:
         content = {}
         for sub_bag in inside.split(','):
-            quantity = re.match(r'^([0-9]+) (\w+ \w+).+$', sub_bag.strip()).group(1)
-            bag_type = re.match(r'^([0-9]+) (\w+ \w+).+$', sub_bag.strip()).group(2)
+            quantity = re.match(r'^([0-9]+) (\w+ \w+).+$', sub_bag.strip()).group(1).strip()
+            bag_type = re.match(r'^([0-9]+) (\w+ \w+).+$', sub_bag.strip()).group(2).strip()
 
-            if bag_type.strip() in content:
+            if bag_type in content:
                 raise ValueError
 
-            content[bag_type.strip()] = int(quantity)
-        rules[bag.strip()] = content
+            content[bag_type] = int(quantity)
+        rules[bag] = content
 
 
 def how_many_bags_can_fit_within_this_bag(root: dict, multiplier: int) -> int:
