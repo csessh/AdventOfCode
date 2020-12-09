@@ -2,8 +2,6 @@
 from typing import Tuple, Union
 
 
-
-
 def find_combo_of_2(numbers: Union[set, list], target: int=2020) -> Tuple[int, int]:
     for number in numbers:
         the_other_half = target - number
