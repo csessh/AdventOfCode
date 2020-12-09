@@ -53,8 +53,8 @@ def run(instruction: list) -> int:
 # Part 1:
 print('=====Part 1============')
 try:
-    attemp = deepcopy(BROKEN_CODE)
-    print(f'Execution result: {run(attemp)}')
+    attempt = deepcopy(BROKEN_CODE)
+    print(f'Execution result: {run(attempt)}')
 except ValueError as e:
     print(f'ValueError: {str(e)}')
 
@@ -62,19 +62,19 @@ except ValueError as e:
 # Part 2
 print('=====Part 2============')
 for i in range(len(BROKEN_CODE)):
-    attemp = deepcopy(BROKEN_CODE)
+    attempt = deepcopy(BROKEN_CODE)
     Command.ptr = 0
     Command.accumulator = 0
 
-    if attemp[i][0] == 'nop':
-        attemp[i][0] = 'jmp'
-    elif attemp[i][0] == 'jmp':
-        attemp[i][0] = 'nop'
+    if attempt[i][0] == 'nop':
+        attempt[i][0] = 'jmp'
+    elif attempt[i][0] == 'jmp':
+        attempt[i][0] = 'nop'
     else:
         continue
 
     try:
-        print(f'Execution result: {run(attemp)}')
+        print(f'Execution result: {run(attempt)}')
         break
     except ValueError:
         continue
