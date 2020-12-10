@@ -10,7 +10,7 @@ def find_combo_of_2(numbers: Union[set, list], target: int=2020) -> Tuple[int, i
     return None, None
 
 
-def find_combo_of_3(numbers: set, target: int=2020) -> Tuple[int, int, int]:
+def find_combo_of_3(numbers: Union[set, list], target: int=2020) -> Tuple[int, int, int]:
     for x in numbers:
         sub_target = target - x
         y, z = find_combo_of_2(numbers, sub_target)
@@ -28,11 +28,11 @@ if __name__ == '__main__':
     Part 1: Target is set to 2020, we look for 2 numbers that add up to target
     """
     a, b = find_combo_of_2(data)
-    print(a, b, a*b)
+    print(a*b)
 
 
     """
     Part 2: Target is set to 2020, we look for 3 numbers that add up to target
     """
     x, y, z = find_combo_of_3(data)
-    print(x, y, z, x*y*z)
+    print(x*y*z)

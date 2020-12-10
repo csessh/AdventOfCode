@@ -5,23 +5,23 @@ from typing import Tuple
 from day1 import find_combo_of_2
 
 
+PREAMBLE_OFFSET = 25
+
+
 with open('test.txt', 'r') as f:
     data = [int(x) for x in f.readlines()]
 
 
-PREAMBLE_OFFSET = 25
+def find_weakness(numbers: list):
+    weakness = None
+    for index, number in enumerate(numbers[PREAMBLE_OFFSET:]):
+        preambes = numbers[index:index+PREAMBLE_OFFSET]
 
-
-# Part 1
-weakness = None
-for index, number in enumerate(data[PREAMBLE_OFFSET:]):
-    preambes = data[index:index+PREAMBLE_OFFSET]
-
-    a, b = find_combo_of_2(preambes, number)
-    if not a and not b:
-        weakness = number
-        break
-print(weakness)
+        a, b = find_combo_of_2(preambes, number)
+        if not a and not b:
+            weakness = number
+            break
+    return weakness
 
 
 def find_contigous_set_of_numbers(target: int) -> Tuple[int, int]:
@@ -37,6 +37,9 @@ def find_contigous_set_of_numbers(target: int) -> Tuple[int, int]:
             contigous_set.append(number)
 
 
+# Part 1
+weakness = find_weakness(data)
+print(weakness)
 
 # Part 2
 a, b = find_contigous_set_of_numbers(weakness)
