@@ -1,6 +1,5 @@
 #!/Users/thangdo/Documents/dev/csessh/bin/python
 
-import math
 
 class BoardingPass:
     def __init__(self, code: str):
@@ -20,12 +19,12 @@ with open('test.txt', 'r') as f:
 
 
 def solve_part1():
-    VIP = 0
+    vip = 0
     for bp in boarding_passes:
         ticket = BoardingPass(bp.strip())
-        if ticket.ID > VIP:
-            VIP = ticket.ID
-    print(VIP)
+        if ticket.ID > vip:
+            vip = ticket.ID
+    print(vip)
 
 
 def solve_part2():
@@ -38,5 +37,6 @@ def solve_part2():
     print(set(range(available_seats[0], available_seats[-1])) - set(available_seats))
 
 
-solve_part1()
-solve_part2()
+if __name__ == '__main__':
+    solve_part1()
+    solve_part2()

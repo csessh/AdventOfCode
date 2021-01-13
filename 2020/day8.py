@@ -16,7 +16,7 @@ class Command:
         self._value = int(cmd[1])
 
     def execute(self):
-        if Command.instruction[Command.ptr][2] == True:
+        if Command.instruction[Command.ptr][2] is True:
             raise ValueError(Command.accumulator)
 
         Command.instruction[Command.ptr][2] = True
@@ -47,7 +47,6 @@ def run(instruction: list) -> int:
         else:
             break
     return node.accumulator
-
 
 
 # Part 1:

@@ -13,6 +13,7 @@ EDGE = 'X'
 
 class Ferry:
     seats_map = None
+
     def __init__(self):
         self._provisioning = deepcopy(Ferry.seats_map)
         self._width = len(Ferry.seats_map[0])
@@ -20,7 +21,8 @@ class Ferry:
         self._stablized = False
         self._seat_count = 0
 
-    def print(self):
+    @staticmethod
+    def print():
         for row in Ferry.seats_map:
             print(row)
         print()
@@ -76,59 +78,59 @@ class Part1(Ferry):
         surroundings[7] = Ferry.seats_map[row][seat-1] if seat - 1 >= 0 else None
         return surroundings
 
+
 class Part2(Ferry):
     def get_surroundings(self, index: Tuple[int, int]) -> list:
         row, seat = index
         surroundings = [None] * 8
         reach = 1
         while surroundings.count(None) > 0:
-            if row-reach >= 0 and seat-reach >= 0 and surroundings[0] == None:
+            if row-reach >= 0 and seat-reach >= 0 and surroundings[0] is None:
                 if Ferry.seats_map[row-reach][seat-reach] != FLOOR:
                     surroundings[0] = Ferry.seats_map[row-reach][seat-reach]
-            elif surroundings[0] == None:
+            elif surroundings[0] is None:
                 surroundings[0] = EDGE
-
 
             if row - reach >= 0 and not surroundings[1]:
                 if Ferry.seats_map[row-reach][seat] != FLOOR:
                     surroundings[1] = Ferry.seats_map[row-reach][seat]
-            elif surroundings[1] == None:
+            elif surroundings[1] is None:
                 surroundings[1] = EDGE
 
-            if row - reach >= 0 and seat + reach < self._width and surroundings[2] == None:
+            if row - reach >= 0 and seat + reach < self._width and surroundings[2] is None:
                 if Ferry.seats_map[row-reach][seat+reach] != FLOOR:
                     surroundings[2] = Ferry.seats_map[row-reach][seat+reach]
-            elif surroundings[2] == None:
+            elif surroundings[2] is None:
                 surroundings[2] = EDGE
 
             if seat + reach < self._width and not surroundings[3]:
                 if Ferry.seats_map[row][seat+reach] != FLOOR:
                     surroundings[3] = Ferry.seats_map[row][seat+reach]
-            elif surroundings[3] == None:
+            elif surroundings[3] is None:
                 surroundings[3] = EDGE
 
-            if row + reach < self._height and seat + reach < self._width and surroundings[4] == None:
+            if row + reach < self._height and seat + reach < self._width and surroundings[4] is None:
                 if Ferry.seats_map[row+reach][seat+reach] != FLOOR:
                     surroundings[4] = Ferry.seats_map[row+reach][seat+reach]
-            elif surroundings[4] == None:
+            elif surroundings[4] is None:
                 surroundings[4] = EDGE
 
-            if row + reach < self._height and surroundings[5] == None:
+            if row + reach < self._height and surroundings[5] is None:
                 if Ferry.seats_map[row+reach][seat] != FLOOR:
                     surroundings[5] = Ferry.seats_map[row+reach][seat]
-            elif surroundings[5] == None:
+            elif surroundings[5] is None:
                 surroundings[5] = EDGE
 
-            if row + reach < self._height and seat - reach >= 0 and surroundings[6] == None:
+            if row + reach < self._height and seat - reach >= 0 and surroundings[6] is None:
                 if Ferry.seats_map[row+reach][seat-reach] != FLOOR:
                     surroundings[6] = Ferry.seats_map[row+reach][seat-reach]
-            elif surroundings[6] == None:
+            elif surroundings[6] is None:
                 surroundings[6] = EDGE
 
-            if seat - reach >= 0 and surroundings[7] == None:
+            if seat - reach >= 0 and surroundings[7] is None:
                 if Ferry.seats_map[row][seat-reach] != FLOOR:
                     surroundings[7] = Ferry.seats_map[row][seat-reach]
-            elif surroundings[7] == None:
+            elif surroundings[7] is None:
                 surroundings[7] = EDGE
 
             reach += 1
