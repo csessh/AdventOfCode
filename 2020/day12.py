@@ -37,14 +37,14 @@ class Coordinate:
 
 class Ship:
     def __init__(self):
-        self._location = Coordinate(0,0)
+        self._location = Coordinate(0, 0)
         self._heading = Heading.East
 
     def steer(self, side: str, value: int):
         if side == 'L':
             self._heading = Heading((self._heading.value - (value // 90)) % 4)
         elif side == 'R':
-            self._heading = Heading((self._heading.value + (value // 90))% 4)
+            self._heading = Heading((self._heading.value + (value // 90)) % 4)
 
     def forward(self, units: int):
         if self._heading == Heading.North:
