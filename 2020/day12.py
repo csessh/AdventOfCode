@@ -1,8 +1,8 @@
 #!/Users/thangdo/Documents/dev/csessh/bin/python
 
+import math
 from abc import abstractmethod
 from enum import Enum
-import math
 
 
 class Heading(Enum):
@@ -48,6 +48,9 @@ class Ship:
 
     @abstractmethod
     def shift(self, direction: str, value: int):
+        """
+        Shift the ship in a given diection without adjusting its heading
+        """
         pass
 
     def action(self, command: str):
