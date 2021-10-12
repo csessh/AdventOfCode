@@ -1,12 +1,10 @@
 #!/Users/thangdo/Documents/dev/csessh/bin/python
 
 
-from os import stat
 from typing import Dict, List, Tuple
 
 
 MEMORY_SIZE = 36
-memory = {}
 
 
 class Mask:
@@ -29,10 +27,13 @@ class Mask:
     def set_bit(value: int, loc: int, bit: int) -> int:
         """
         For example:
-            value = 0 --> 0000
-
-            set_bit(0, 1) flips the rightmost bit to 1
+            set_bit(0, 1, 1) flips the rightmost bit to 1
+                --> old = 0 --> 0000
                 --> value = 1 --> 0001
+
+            set_bit(1, 1, 0) flips the rightmost bit to 0
+                --> old = 1 --> 0001
+                --> value = 0 --> 0000
         """
         if bit == 1:
             return value | (1 << loc)
@@ -41,18 +42,24 @@ class Mask:
             return value &~ (1 << loc)
 
 
-def get_sum_of_values_in_memory(instructions: Dict[str, List[Tuple[int, int]]]) -> int:
-    """
-    What is the sum of all values left in memory after it completes?
-    """
+def get_sum_of_values_in_memory_1(instructions: Dict[str, List[Tuple[int, int]]]) -> int:
+    memory = {}
     for mask, instruction in instructions.items():
         for index, value in instruction:
-            pre_mask = value
-            masked_value = pre_mask
             for loc, bit in mask.bits.items():
-                masked_value = Mask.set_bit(masked_value, loc, bit)
+                value = Mask.set_bit(value, loc, bit)
+            memory[index] = value
+    return sum(memory.values())
 
-            memory[index] = masked_value
+
+def get_sum_of_values_in_memory_2(instructions: Dict[str, List[Tuple[int, int]]]) -> int:
+    memory = {}
+
+    for mask, instruction in instructions.items():
+        for index, value in instruction:
+            for loc, bit in mask.bits.items():
+                print(mask, index, value, loc, bit)
+
     return sum(memory.values())
 
 
@@ -73,5 +80,18 @@ if __name__ == '__main__':
                 value = int(line[line.index('=')+1:])
                 instructions[current_mask].append((index, value))
 
+    """
+    instruction --> {
+        XXXXXXXXXXXXXXXXXXXXXXXXXXXXX1XXXX0X: [
+            ('8', 11),  # memory location (8) and value to be written (11)
+            ('7', 101),
+            ('8', 0)
+        ]
+    }
+    """
+
     # Part 1
-    print(f'Part 1: {get_sum_of_values_in_memory(instructions)}')
+    print(f'Part 1: {get_sum_of_values_in_memory_1(instructions)}')
+
+    # Part 2
+    print(f'Part 2: {get_sum_of_values_in_memory_2(instructions)}')
