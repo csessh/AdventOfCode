@@ -1,6 +1,7 @@
 #!/Users/thangdo/Documents/dev/csessh/bin/python
 
-
+from itertools import product
+from numpy import binary_repr
 from typing import Dict, List, Tuple
 
 
@@ -11,10 +12,13 @@ class Mask:
     def __init__(self, mask: str):
         self._raw = mask[len('mask = '):]
         self._bit_masks = {}
+        self._floating_masks = []
 
         for idx, c in enumerate(self._raw):
             if c != 'X':
                 self._bit_masks[MEMORY_SIZE - (idx + 1)] = int(c)
+            else:
+                self._floating_masks.append(MEMORY_SIZE - (idx + 1))
 
     def __repr__(self) -> str:
         return self._raw
@@ -23,15 +27,19 @@ class Mask:
     def bits(self) -> Dict[int, int]:
         return self._bit_masks
 
+    @property
+    def floaters(self) -> List[int]:
+        return self._floating_masks
+
     @staticmethod
-    def set_bit(value: int, loc: int, bit: int) -> int:
+    def mask_value(value: int, loc: int, bit: int) -> int:
         """
         For example:
-            set_bit(0, 1, 1) flips the rightmost bit to 1
+            mask_value(0, 1, 1) flips the rightmost bit to 1
                 --> old = 0 --> 0000
                 --> value = 1 --> 0001
 
-            set_bit(1, 1, 0) flips the rightmost bit to 0
+            mask_value(1, 1, 0) flips the rightmost bit to 0
                 --> old = 1 --> 0001
                 --> value = 0 --> 0000
         """
@@ -47,19 +55,30 @@ def get_sum_of_values_in_memory_1(instructions: Dict[str, List[Tuple[int, int]]]
     for mask, instruction in instructions.items():
         for index, value in instruction:
             for loc, bit in mask.bits.items():
-                value = Mask.set_bit(value, loc, bit)
+                value = Mask.mask_value(value, loc, bit)
             memory[index] = value
     return sum(memory.values())
 
 
 def get_sum_of_values_in_memory_2(instructions: Dict[str, List[Tuple[int, int]]]) -> int:
     memory = {}
-
     for mask, instruction in instructions.items():
-        for index, value in instruction:
-            for loc, bit in mask.bits.items():
-                print(mask, index, value, loc, bit)
+        for address, value in instruction:
+            overflown_addresses = []
 
+            for loc, bit in mask.bits.items():
+                if bit == 1:
+                    address = Mask.mask_value(address, loc, bit)
+
+            for combo in list(product(range(2), repeat=len(mask.floaters))):
+                new_address = address
+                for bit_placement in zip(mask.floaters, combo):
+                    loc, bit = bit_placement
+                    new_address = Mask.mask_value(new_address, loc, bit)
+                    overflown_addresses.append(new_address)
+
+            for overflown_address in overflown_addresses:
+                memory[overflown_address] = value
     return sum(memory.values())
 
 
@@ -76,7 +95,7 @@ if __name__ == '__main__':
                 instructions[mask] = []
                 current_mask = mask
             else:
-                index = line[len('mem['): line.index(']')]
+                index = int(line[len('mem['): line.index(']')])
                 value = int(line[line.index('=')+1:])
                 instructions[current_mask].append((index, value))
 
