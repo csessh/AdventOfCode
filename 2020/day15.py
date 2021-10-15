@@ -29,7 +29,7 @@ def part1(data: List[int]) -> int:
                 else:
                     pen, last = spoken[last_spoken][-2], spoken[last_spoken][-1]
                     last_spoken = spoken[last_spoken][-1] - spoken[last_spoken][-2]
-                    # print(f'It had been spoken previously in turn {pen} and {last}. Number spoken this turn: {last_spoken}')
+                    print(f'It had been spoken previously in turn {pen} and {last}. Number spoken this turn: {last_spoken}')
             else:
                 last_spoken = 0
                 print(f'It had never been spoken previously. Number spoken this turn: {last_spoken}')
