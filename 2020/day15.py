@@ -3,7 +3,7 @@
 from typing import List
 
 
-MAX_ITERATION = 2020
+MAX_ITERATION = 30000000
 STARTING_NUMBER_TURN = -1
 
 
@@ -29,9 +29,8 @@ def part1(data: List[int]) -> int:
                 else:
                     pen, last = spoken[last_spoken][-2], spoken[last_spoken][-1]
                     last_spoken = spoken[last_spoken][-1] - spoken[last_spoken][-2]
-                    print(f'It had been spoken previously in turn {pen} and {last}. Number spoken this turn: {last_spoken}')
+                    # print(f'It had been spoken previously in turn {pen} and {last}. Number spoken this turn: {last_spoken}')
             else:
-                # new
                 last_spoken = 0
                 print(f'It had never been spoken previously. Number spoken this turn: {last_spoken}')
 
@@ -54,5 +53,5 @@ if __name__ == '__main__':
     with open('test.txt', 'r') as f:
         data = [int(num) for num in f.readline().split(',')]
 
-    # Part 1
+    # Part 1 and 2
     print(f'Last spoken number at {MAX_ITERATION}th turn was {part1(data)}')
