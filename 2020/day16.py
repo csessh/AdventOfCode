@@ -1,32 +1,68 @@
 #!/Users/thangdo/Documents/dev/csessh/bin/python
 
 
-my_ticket = []
-nearby_tickets = []
-criteria = {}
+from typing import List, Dict
 
 
-def extract_values_from_train_info(info: str):
-    global criteria
-    for pair in [x.strip() for x in info.split(' or ')]:
-        start, end = pair.split('-')
-        for x in range(int(start), int(end)+1):
-            criteria[x] = True
+class Ticket:
+    criteria = {}
+
+    def __init__(self, details: List[int]):
+        self._info = details
+        self._headers = {
+            'departure location': None,
+            'departure station': None,
+            'departure platform': None,
+            'departure track': None,
+            'departure date': None,
+            'departure time': None,
+            'arrival location': None,
+            'arrival station': None,
+            'arrival platform': None,
+            'arrival track': None,
+            'class': None,
+            'duration': None,
+            'price': None,
+            'route': None,
+            'row': None,
+            'seat': None,
+            'train': None,
+            'type': None,
+            'wagon': None,
+            'zone': None
+        }
+
+    @property
+    def departure_product(self) -> int:
+        return 0
+
+    @property
+    def error_rate(self) -> int:
+        rate = 0
+
+        for index, value in enumerate(self._info):
+            is_valid = False
+            for header, check in Ticket.criteria.items():
+                if check[0] <= value <= check[1] or check[2] <= value <= check[3]:
+                    is_valid = True
+                    break
+
+            if is_valid:
+                continue
+
+            rate += value
+        return rate
 
 
-def get_scanning_error_rate() -> int:
-    global criteria
-    invalid_tickets = []
-
-    for ticket in nearby_tickets:
-        if ticket not in criteria:
-            invalid_tickets.append(ticket)
-
-    print(f'Invalid tickets: {invalid_tickets}')
-    return sum(invalid_tickets)
+    @property
+    def headers(self) -> Dict[str, int]:
+        return self._headers
 
 
 if __name__ == '__main__':
+    my_ticket = []
+    nearby_tickets = []
+
     with open('test.txt', 'r') as f:
         is_my_ticket_section = False
         is_nearby_tickets_section = False
@@ -39,23 +75,33 @@ if __name__ == '__main__':
             if line.startswith('your ticket:'):
                 is_my_ticket_section = True
                 is_nearby_tickets_section = False
-
             elif line.startswith('nearby tickets:'):
                 is_my_ticket_section = False
                 is_nearby_tickets_section = True
-
             else:
                 try:
                     starting_index = line.index(':')
-                    line = line[starting_index+1:].strip()
-                    extract_values_from_train_info(line)
+                    values = line[starting_index+1:].strip().split(' or ')
+                    header = line[:starting_index]
+
+                    Ticket.criteria[header] = []
+                    for value in values:
+                        start, end = value.split('-')
+                        Ticket.criteria[header] += [int(start), int(end)]
                 except ValueError:
                     pass
 
                 if is_my_ticket_section:
-                    my_ticket = [int(x) for x in line.split(',')]
+                    my_ticket = Ticket([int(x) for x in line.split(',')])
                 elif is_nearby_tickets_section:
-                    nearby_tickets += [int(x) for x in line.split(',')]
+                    nearby_tickets += [Ticket([int(x) for x in line.split(',')])]
+
 
     # Part 1
-    print(f'Error scanning error rate = {get_scanning_error_rate()}')
+    error_rate = 0
+    for ticket in nearby_tickets:
+        error_rate += ticket.error_rate
+
+    print(f'Part 1: Scanning Error Rate = {error_rate}')
+
+    # Part 2
