@@ -31,13 +31,14 @@ class Ticket:
             'wagon': None,
             'zone': None
         }
+        self._is_valid = None
+
 
     @property
     def departure_product(self) -> int:
         return 0
 
-    @property
-    def error_rate(self) -> int:
+    def get_error_rate(self) -> int:
         rate = 0
 
         for index, value in enumerate(self._info):
@@ -50,9 +51,16 @@ class Ticket:
             if is_valid:
                 continue
 
+            self._is_valid = False
             rate += value
         return rate
 
+    @property
+    def is_valid(self) -> bool:
+        if self._is_valid is None:
+            self.get_error_rate()
+
+        return self._is_valid
 
     @property
     def headers(self) -> Dict[str, int]:
@@ -99,8 +107,11 @@ if __name__ == '__main__':
 
     # Part 1
     error_rate = 0
+    valid_nearby_tickets = []
     for ticket in nearby_tickets:
-        error_rate += ticket.error_rate
+        error_rate += ticket.get_error_rate()
+        if ticket.is_valid:
+            valid_nearby_tickets.append(ticket)
 
     print(f'Part 1: Scanning Error Rate = {error_rate}')
 
