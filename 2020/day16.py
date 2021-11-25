@@ -1,51 +1,17 @@
-from typing import List, Dict
+from typing import List
 
 
 class Ticket:
-    criteria = {}
+    criteria = []
 
-    def __init__(self, details: List[int]):
-        self._info = details
-        self._headers = {
-            'departure location': None,
-            'departure station': None,
-            'departure platform': None,
-            'departure track': None,
-            'departure date': None,
-            'departure time': None,
-            'arrival location': None,
-            'arrival station': None,
-            'arrival platform': None,
-            'arrival track': None,
-            'class': None,
-            'duration': None,
-            'price': None,
-            'route': None,
-            'row': None,
-            'seat': None,
-            'train': None,
-            'type': None,
-            'wagon': None,
-            'zone': None
-        }
-        self._is_valid = None
-
-
-    @property
-    def departure_product(self) -> int:
-        return 0
+    def __init__(self, values: List[int]):
+        self._values = values
+        self._is_valid = True
 
     def get_error_rate(self) -> int:
         rate = 0
-
-        for index, value in enumerate(self._info):
-            is_valid = False
-            for header, check in Ticket.criteria.items():
-                if check[0] <= value <= check[1] or check[2] <= value <= check[3]:
-                    is_valid = True
-                    break
-
-            if is_valid:
+        for _, value in enumerate(self._values):
+            if any(a <= value <= b or c <= value <= d for _, (a, b, c, d) in Ticket.criteria):
                 continue
 
             self._is_valid = False
@@ -54,18 +20,15 @@ class Ticket:
 
     @property
     def is_valid(self) -> bool:
-        if self._is_valid is None:
-            self.get_error_rate()
-
         return self._is_valid
 
     @property
-    def headers(self) -> Dict[str, int]:
-        return self._headers
+    def values(self) -> List[int]:
+        return self._values
 
 
 if __name__ == '__main__':
-    my_ticket = []
+    my_ticket = None
     nearby_tickets = []
 
     with open('test.txt', 'r') as f:
@@ -85,14 +48,14 @@ if __name__ == '__main__':
                 is_nearby_tickets_section = True
             else:
                 try:
-                    starting_index = line.index(':')
-                    values = line[starting_index+1:].strip().split(' or ')
-                    header = line[:starting_index]
-
-                    Ticket.criteria[header] = []
-                    for value in values:
-                        start, end = value.split('-')
-                        Ticket.criteria[header] += [int(start), int(end)]
+                    """
+                    We're parsing ticket criteria here. For example:
+                        departure location: 29-458 or 484-956 --> ("departure location", [29, 458, 484, 956])
+                    """
+                    header = line[:line.index(':')]
+                    values = line[line.index(':')+1:].strip().replace(' or ', '-').split('-')
+                    values = list(map(int, values))
+                    Ticket.criteria.append((header, values))
                 except ValueError:
                     pass
 
@@ -109,7 +72,24 @@ if __name__ == '__main__':
         error_rate += ticket.get_error_rate()
         if ticket.is_valid:
             valid_nearby_tickets.append(ticket)
-
     print(f'Part 1: Scanning Error Rate = {error_rate}')
 
     # Part 2
+    product = 1
+    columns = set(range(len(Ticket.criteria)))
+    for _ in range(len(Ticket.criteria)):
+        for index, field in enumerate(Ticket.criteria):
+            header, [a, b, c, d] = field
+
+            candidates = []
+            for col in columns:
+                if all(a <= ticket.values[col] <= b or c <= ticket.values[col] <= d for ticket in valid_nearby_tickets):
+                    candidates.append(col)
+
+            if len(candidates) == 1:
+                columns.remove(candidates[0])
+                Ticket.criteria.pop(index)
+                if header.startswith('departure'):
+                    product *= my_ticket.values[candidates[0]]
+                break
+    print(f'Part 2: Departure product = {product}')
