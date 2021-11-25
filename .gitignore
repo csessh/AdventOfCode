@@ -131,3 +131,4 @@ dmypy.json
 input.txt
 test.txt
 .idea
+.DS_store

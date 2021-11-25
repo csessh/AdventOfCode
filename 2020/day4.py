@@ -1,4 +1,3 @@
-#!/Users/thangdo/Documents/dev/csessh/bin/python
 import re
 from typing import Callable
 

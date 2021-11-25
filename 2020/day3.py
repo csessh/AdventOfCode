@@ -1,6 +1,3 @@
-#!/Users/thangdo/Documents/dev/csessh/bin/python
-
-
 class Location:
     map_width = 0
     map_depth = 0

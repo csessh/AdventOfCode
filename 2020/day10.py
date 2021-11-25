@@ -1,5 +1,3 @@
-#!/Users/thangdo/Documents/dev/csessh/bin/python
-
 from collections.abc import Iterator
 from itertools import tee
 from typing import Union, Tuple, Any

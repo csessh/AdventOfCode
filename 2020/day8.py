@@ -1,4 +1,3 @@
-#!/Users/thangdo/Documents/dev/csessh/bin/python
 from copy import deepcopy
 
 

@@ -1,6 +1,3 @@
-#!/Users/thangdo/Documents/dev/csessh/bin/python
-
-
 from math import ceil
 from typing import Set, Tuple
 

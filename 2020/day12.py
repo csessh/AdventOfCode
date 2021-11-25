@@ -1,5 +1,3 @@
-#!/Users/thangdo/Documents/dev/csessh/bin/python
-
 import math
 from abc import abstractmethod
 from enum import Enum

@@ -1,6 +1,3 @@
-#!/Users/thangdo/Documents/dev/csessh/bin/python
-
-
 def convert(data: str) -> dict:
     req, pwd = data.split(':')
     freqs, key = req.split(' ')

@@ -1,6 +1,3 @@
-#!/Users/thangdo/Documents/dev/csessh/bin/python
-
-
 from typing import List, Dict
 
 

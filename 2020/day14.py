@@ -1,7 +1,4 @@
-#!/Users/thangdo/Documents/dev/csessh/bin/python
-
 from itertools import product
-from numpy import binary_repr
 from typing import Dict, List, Tuple
 
 

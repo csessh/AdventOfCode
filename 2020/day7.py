@@ -1,7 +1,7 @@
-#!/Users/thangdo/Documents/dev/csessh/bin/python
 import re
 
 rules = {}
+
 
 with open('test.txt', 'r') as f:
     ridiculous_rules = f.readlines()

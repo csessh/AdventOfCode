@@ -1,5 +1,3 @@
-#!/Users/thangdo/Documents/dev/csessh/bin/python
-
 from typing import List
 
 PART_1_MAX_ITERATION = 2020

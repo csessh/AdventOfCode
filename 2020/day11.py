@@ -1,5 +1,3 @@
-#!/Users/thangdo/Documents/dev/csessh/bin/python
-
 from abc import abstractmethod
 from copy import deepcopy
 from typing import Tuple

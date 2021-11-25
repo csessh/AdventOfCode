@@ -1,5 +1,3 @@
-#!/Users/thangdo/Documents/dev/csessh/bin/python
-
 from typing import Tuple
 from day1 import find_combo_of_2
 

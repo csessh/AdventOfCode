@@ -1,6 +1,3 @@
-#!/Users/thangdo/Documents/dev/csessh/bin/python
-
-
 class BoardingPass:
     def __init__(self, code: str):
         self._row_code = code[:-3]
