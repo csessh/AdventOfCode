@@ -1,19 +1,24 @@
+from typing import List
 
-def calculate(s, order):
-    if "(" in s:
+
+def calculate(prob: str, order: List[str]):
+    if "(" in prob:
         openp = 0
-        start = s.index("(")
-        for i in range(start, len(s)):
-            if s[i] == "(":
+        start = prob.index("(")
+        for i in range(start, len(prob)):
+            if prob[i] == "(":
                 openp += 1
-            elif s[i] == ")":
+            elif prob[i] == ")":
                 openp -= 1
             if openp == 0:
                 break
-        return calculate(s[:start] + calculate(s[start + 1 : i], order) + s[i + 1 :], order)
 
+        return calculate(
+            prob[:start] + calculate(prob[start + 1 : i], order) + prob[i + 1 :],
+            order
+        )
     else:
-        grams = s.split(" ")
+        grams = prob.split(" ")
         for ops in order:
             i = 1
             while i < len(grams):
@@ -29,11 +34,12 @@ def calculate(s, order):
         return grams[0]
 
 
-with open('test.txt') as f:
-    probs = f.readlines()
+if __name__ == '__main__':
+    with open('test.txt') as f:
+        problems = f.readlines()
 
-part1 = sum([int(calculate(l, ["+*"])) for l in probs])
-print(f"Part 1: {part1}")
+    part1 = sum([int(calculate(problem, ["+*"])) for problem in problems])
+    print(f"Part 1: {part1}")
 
-part2 = sum([int(calculate(l, ["+", "*"])) for l in probs])
-print(f"Part 2: {part2}")
+    part2 = sum([int(calculate(problem, ["+", "*"])) for problem in problems])
+    print(f"Part 2: {part2}")
