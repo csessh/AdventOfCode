@@ -98,11 +98,11 @@ if __name__ == '__main__':
     # Part 1
     #
     gamma, epsilon = get_power_consumption(rotated_data)
-    print(gamma * epsilon)
+    print(f'Submarine\'s power consumption = {gamma * epsilon}')
 
     #
     # Part 2
     #
     oxygen = get_oxygen(rotated_data)
     scrubber = get_scrubber(rotated_data)
-    print(scrubber * oxygen)
+    print(f'Submarine\'s life support rating = {scrubber * oxygen}')
