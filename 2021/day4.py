@@ -1,6 +1,5 @@
 import numpy
-from collections import Counter
-from typing import List, Tuple, NamedTuple
+from typing import List, NamedTuple
 
 
 BOARD_SIZE = 5
@@ -41,13 +40,13 @@ class Board:
         if self._bingo == True:
             return
 
-    def get_unmarked_sum(self) -> int:
-        return numpy.where(self._raw > 0, self._raw, 0).sum()
-
     @property
     def bingo(self) -> bool:
         return self._bingo
 
+    @property
+    def unmarked_sum(self) -> int:
+        return numpy.where(self._raw > 0, self._raw, 0).sum()
 
 if __name__ == '__main__':
     with open('test.txt') as f:
@@ -76,7 +75,8 @@ if __name__ == '__main__':
             board.mark(n)
             if board.bingo:
                 winners.append(idx)
-                last_score = board.get_unmarked_sum() * n
+                last_score = board.unmarked_sum * n
+
                 if not first_score:
                     first_score = last_score
                     print(f'Part 1: {first_score}')
