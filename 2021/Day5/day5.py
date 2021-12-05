@@ -61,8 +61,8 @@ def determine_overlapping_count(lines: List[Line]) -> int:
             for i in range(diff+1):
                 x = line.source.x
                 y = line.source.y
-                x += (i) if line.source.x < line.destination.x else -(i)
-                y += (i) if line.source.y < line.destination.y else -(i)
+                x += i if line.source.x < line.destination.x else -i
+                y += i if line.source.y < line.destination.y else -i
                 pos = Coordinate(x=x, y=y)
 
                 points[pos] += 1
