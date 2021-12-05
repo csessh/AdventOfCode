@@ -17,7 +17,7 @@ class Line(NamedTuple):
     destination: Coordinate
 
 
-def determine_overlapping_points(lines: List[Line]) -> List[Coordinate]:
+def determine_overlapping_count(lines: List[Line]) -> int:
     """
         --> x
         .......1.. |
@@ -31,10 +31,8 @@ def determine_overlapping_points(lines: List[Line]) -> List[Coordinate]:
         ..........
         222111....
     """
-
+    count = 0
     points = defaultdict(lambda: 0)
-    overlapped = []
-
     for line in lines:
         if line.source.x == line.destination.x or line.source.y == line.destination.y:
             #
@@ -53,9 +51,8 @@ def determine_overlapping_points(lines: List[Line]) -> List[Coordinate]:
                     pos = Coordinate(x=i, y=line.source.y)
 
                 points[pos] += 1
-                if points[pos] >= 2:
-                    if pos not in overlapped:
-                        overlapped.append(pos)
+                if points[pos] == 2:
+                    count += 1
         else:
             #
             # Draw diagonal lines
@@ -69,11 +66,10 @@ def determine_overlapping_points(lines: List[Line]) -> List[Coordinate]:
                 pos = Coordinate(x=x, y=y)
 
                 points[pos] += 1
-                if points[pos] >= 2:
-                    if pos not in overlapped:
-                        overlapped.append(pos)
+                if points[pos] == 2:
+                    count += 1
 
-    return overlapped
+    return count
 
 
 if __name__ == '__main__':
@@ -98,6 +94,6 @@ if __name__ == '__main__':
                 )
             )
 
-    points = determine_overlapping_points(lines)
+    points = determine_overlapping_count(lines)
     print(f'Overlapping point count: {len(points)}')
 
