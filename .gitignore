@@ -128,7 +128,5 @@ dmypy.json
 # Pyre type checker
 .pyre/
 
-input.txt
-test.txt
 .idea
 .DS_store

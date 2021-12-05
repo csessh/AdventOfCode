@@ -1,75 +1,79 @@
-from copy import deepcopy
-from enum import Enum
-from typing import List, Tuple
+def p1(active) -> int:
+    for _ in range(6):
+        new = set()
+        xvals = [x[0] for x in active]
+        yvals = [y[1] for y in active]
+        zvals = [z[2] for z in active]
+
+        for x in range(min(xvals) - 1, max(xvals) + 2):
+            for y in range(min(yvals) - 1, max(yvals) + 2):
+                for z in range(min(zvals) - 1, max(zvals) + 2):
+                    nbrs = 0
+                    for dx in [-1, 0, 1]:
+                        for dy in [-1, 0, 1]:
+                            for dz in [-1, 0, 1]:
+                                if dx != 0 or dy != 0 or dz != 0:
+                                    if (x + dx, y + dy, z + dz) in active:
+                                        nbrs += 1
+
+                    if (x, y, z) not in active and nbrs == 3:
+                        new.add((x, y, z))
+                    if (x, y, z) in active and nbrs in [2, 3]:
+                        new.add((x, y, z))
+
+        active = new
+
+    return len(active)
 
 
-class Status(str, Enum):
-    Active = '#'
-    Inactive = '.'
+def p2(active):
+    for _ in range(6):
+        new = set()
+        xvals = [x[0] for x in active]
+        yvals = [y[1] for y in active]
+        zvals = [z[2] for z in active]
+        wvals = [w[3] for w in active]
 
+        for x in range(min(xvals) - 1, max(xvals) + 2):
+            for y in range(min(yvals) - 1, max(yvals) + 2):
+                for z in range(min(zvals) - 1, max(zvals) + 2):
+                    for w in range(min(wvals) - 1, max(wvals) + 2):
+                        nbrs = 0
+                        for dx in [-1, 0, 1]:
+                            for dy in [-1, 0, 1]:
+                                for dz in [-1, 0, 1]:
+                                    for dw in [-1, 0, 1]:
+                                        if dx != 0 or dy != 0 or dz != 0 or dw != 0:
+                                            if (x + dx, y + dy, z + dz, w + dw) in active:
+                                                nbrs += 1
 
-class ZAxis(int, Enum):
-    FRONT = 0
-    MID = 1
-    BACK = 2
+                        if (x, y, z, w) not in active and nbrs == 3:
+                            new.add((x, y, z, w))
+                        if (x, y, z, w) in active and nbrs in [2, 3]:
+                            new.add((x, y, z, w))
 
+        active = new
 
-MAX_CYCLES = 6
+    return len(active)
 
-
-class Cube:
-    def __init__(self, slice: List[List[str]]):
-        self._cube = [slice] * len(ZAxis)
-        self._x = len(self._cube[0][0])
-        self._y = len(self._cube[0])
-        self._z = len(ZAxis)
-        self._ref = None
-
-    def transform(self):
-        self._ref = deepcopy(self._cube)
-
-        for z, slice in enumerate(self._cube):
-            for x, row in enumerate(slice):
-                for y, _ in enumerate(row):
-                    cube = self._cube[z][y][x]
-                    count = self._get_active_neighbours(x, y, z)
-
-                    if cube == Status.Active:
-                        if count not in [2, 3]:
-                            cube = Status.Inactive
-                    elif cube == Status.Inactive:
-                        if count == 3:
-                            cube = Status.Active
-
-    def show(self, cycle: int=None):
-        if cycle:
-            print(f'Current cycle: {cycle}')
-
-        for row in range(len(self._cube[0])):
-            print(f'{self._cube[ZAxis.FRONT][row]}\t{self._cube[ZAxis.MID][row]}\t{self._cube[ZAxis.BACK][row]}')
-        print()
-
-    def _get_active_neighbours(self, x: int, y: int, z: int) -> Tuple[int, int]:
-        actives = 0
-
-        min_z = z-1 if z > 0 else z
-        max_z = z+1 if z < self._z else z
-
-        min_y = y-1 if y > 0 else y
-        max_y = y+1 if y < self._y else y
-
-        min_x = x-1 if x > 0 else x
-        max_x = x+1 if x < self._x else x
-
-        return actives
 
 
 if __name__ == '__main__':
-    with open('test.txt', 'r') as f:
-        slice = [list(line.strip()) for line in f.readlines()]
-        cube = Cube(slice)
-        cube.show()
+    with open("test.txt") as f:
+        data = [line.strip() for line in f.readlines()]
 
-    for cycle in range(MAX_CYCLES):
-        cube.transform()
-        cube.show(cycle+1)
+    active = set()
+    for y, row in enumerate(data):
+        for x, col in enumerate(row):
+            if col == '#':
+                active.add((y, x, 0))
+
+    print(f'Part 1: {p1(active)}')
+
+    active = set()
+    for r, l in enumerate(data):
+        for c, p in enumerate(l):
+            if p == '#':
+                active.add((r, c, 0, 0))
+
+    print(f'Part 2: {p2(active)}')
