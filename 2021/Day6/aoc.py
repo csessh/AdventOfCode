@@ -5,16 +5,17 @@ from collections import defaultdict
 from typing import Dict
 
 
-RESET = 6
-MIN = 0
+TIMER_RESET = 6
+TIMER_MIN = 0
+TIMER_MAX = 8
 
 
 def count_lanternfish(days: int, school: Dict[int, int]) -> int:
     for _ in range(days):
-        reset = school[MIN]
-        for i in range(8):
+        reset = school[TIMER_MIN]
+        for i in range(TIMER_MAX):
             school[i], school[i+1] = school[i+1], school[i]
-        school[RESET] += reset
+        school[TIMER_RESET] += reset
     return sum(school.values())
 
 
