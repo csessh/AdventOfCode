@@ -1,48 +1,21 @@
 import argparse
-from enum import Enum
-from typing import List
+import numpy
+import pandas
+from collections import defaultdict
+from typing import Dict
 
 
-class InternalTimer(int, Enum):
-    Min = 0
-    Reset = 6
-    New = 8
+RESET = 6
+MIN = 0
 
 
-class Fish:
-    def __init__(self, timer: int=InternalTimer.New):
-        self._internal_timer = timer
-
-    def age(self):
-        if self._internal_timer > InternalTimer.Min:
-            self._internal_timer -= 1
-        elif self._internal_timer == InternalTimer.Min:
-            self._internal_timer = InternalTimer.Reset
-
-    @staticmethod
-    def spawn() -> 'Fish':
-        return Fish(timer=InternalTimer.New)
-
-    def __repr__(self) -> str:
-        return f'Fish {self._internal_timer}'
-
-    @property
-    def timer(self) -> int:
-        return self._internal_timer
-
-
-def count_lanternfish(days: int, school: List[Fish]) -> int:
+def count_lanternfish(days: int, school: Dict[int, int]) -> int:
     for _ in range(days):
-        newborns = []
-        for idx, fish in enumerate(school):
-            current_age = fish.timer
-            fish.age()
-
-            if fish.timer == InternalTimer.Reset and current_age == InternalTimer.Min:
-                newborns.append(Fish.spawn())
-        school += newborns
-
-    return len(school)
+        reset = school[MIN]
+        for i in range(8):
+            school[i], school[i+1] = school[i+1], school[i]
+        school[RESET] += reset
+    return sum(school.values())
 
 
 if __name__ == '__main__':
@@ -52,9 +25,23 @@ if __name__ == '__main__':
 
     lines = []
     with open('test.txt' if not args.test else 'sample.txt') as f:
-        school_of_fish = list(map(Fish, map(int, f.readline().strip().split(','))))
+        school_of_fish = numpy.array(
+            list(
+                map(int, f.readline().strip().split(','))
+            )
+        )
 
     if args.test:
-        assert count_lanternfish(80, school_of_fish) == 5934
-        # assert count_lanternfish(256, school_of_fish) == 26984457539
+        fish_tracker = defaultdict(int, pandas.value_counts(school_of_fish))
+        assert count_lanternfish(80, fish_tracker) == 5934
 
+        fish_tracker = defaultdict(int, pandas.value_counts(school_of_fish))
+        assert count_lanternfish(256, fish_tracker) == 26984457539
+    else:
+        # Part 1
+        fish_tracker = defaultdict(int, pandas.value_counts(school_of_fish))
+        print(f'Part 1: Population after 80 days: {count_lanternfish(80, fish_tracker)}')
+
+        # Part 2
+        fish_tracker = defaultdict(int, pandas.value_counts(school_of_fish))
+        print(f'Part 2: Population after 256 days: {count_lanternfish(256, fish_tracker)}')
