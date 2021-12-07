@@ -3,20 +3,18 @@ import numpy
 from typing import List
 
 
-def calculate_cost_of_stepping(cost: int, expense: int=0) -> int:
-    if expense == 0:
-        return cost
-
-    return sum(numpy.arange(cost+1))
+def calculate_cost_of_stepping(cost: int, expensive: bool) -> int:
+    return ((cost ** 2) + cost) // 2 if expensive else cost
 
 
-def calculate_the_least_amount_of_fuel(crabs: List[int], cost: int=0) -> int:
+def calculate_the_least_amount_of_fuel(crabs: List[int], expensive: bool=False) -> int:
     min = numpy.min(crabs)
     max = numpy.max(crabs)
 
     most_effective = None
     for i in range(min, max+1):
-        fuel = sum([calculate_cost_of_stepping(abs(x - i), cost) for x in crabs])
+        fuel = sum([calculate_cost_of_stepping(abs(x - i), expensive) for x in crabs])
+
         if most_effective is None or fuel < most_effective:
             most_effective = fuel
 
@@ -36,7 +34,7 @@ if __name__ == '__main__':
 
     if args.test:
         assert calculate_the_least_amount_of_fuel(crabs) == 37
-        assert calculate_the_least_amount_of_fuel(crabs, cost=1) == 168
+        assert calculate_the_least_amount_of_fuel(crabs, expensive=True) == 168
     else:
         print(f'Part 1: {calculate_the_least_amount_of_fuel(crabs)}')
-        print(f'Part 2: {calculate_the_least_amount_of_fuel(crabs, cost=1)}')
+        print(f'Part 2: {calculate_the_least_amount_of_fuel(crabs, expensive=True)}')
