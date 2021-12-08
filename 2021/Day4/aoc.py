@@ -1,3 +1,4 @@
+import argparse
 import numpy
 from typing import List, NamedTuple
 
@@ -48,8 +49,13 @@ class Board:
     def unmarked_sum(self) -> int:
         return numpy.where(self._raw > 0, self._raw, 0).sum()
 
+
 if __name__ == '__main__':
-    with open('test.txt') as f:
+    parser = argparse.ArgumentParser('AoC')
+    parser.add_argument('-t', '--test', help="Run sample input and verify answers", action="store_true")
+    args = parser.parse_args()
+
+    with open('test.txt' if not args.test else 'sample.txt') as f:
         drawn_numbers = list(map(int, f.readline().strip().split(',')))
         f.readline()
 
@@ -79,6 +85,11 @@ if __name__ == '__main__':
 
                 if not first_score:
                     first_score = last_score
+
+                    if args.test:
+                        assert first_score == 4512
                     print(f'Part 1: {first_score}')
 
+    if args.test:
+        assert last_score == 1924
     print(f'part 2: {last_score}')
