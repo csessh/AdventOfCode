@@ -1,18 +1,27 @@
+import queue
 import re
+from queue import Queue
 from typing import List, Set, Dict
 
 
 RULE_PATTERNS = r'([0-9]+): (?:([0-9]+ [0-9]+(?:\s*\|*\s*[0-9]+ [0-9]+)*)|(?:\"([a-z]+)\"))'
-rules = {}
 
-def construct_possible_matches(rules: Dict[int, List[List[int]]]) -> Set[str]:
-    root = rules[0]
-    if len(root) == 1:
-        pass
-    else:
-        pass
 
-    return {}
+def construct_possible_matches(rules):
+    """
+        {
+            0: [[4, 1]],
+            1: [[2, 3], [3, 2]],
+            2: [[4, 4], [5, 5]],
+            3: [[4, 5], [5, 4]],
+            4: 'a',
+            5: 'b'
+        }
+    """
+    matches = {}
+
+
+    return matches
 
 
 if __name__ == '__main__':
@@ -54,6 +63,14 @@ if __name__ == '__main__':
 
         # Parse messages
         messages = set([line.strip() for line in f.readlines()])
+
+        #
+        # Part 1
+        #
         possible_matches = construct_possible_matches(rules)
         matches = messages.intersection(possible_matches)
         print(f'Part 1: {len(matches)}')
+
+        #
+        # Part 2
+        #
