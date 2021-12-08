@@ -1,8 +1,16 @@
+import argparse
+
+
 SLIDING_WINDOW_OFFSET = 3
 
 
 if __name__ == '__main__':
-    with open('test.txt') as f:
+    parser = argparse.ArgumentParser('AoC')
+    parser.add_argument('-t', '--test', help="Run sample input and verify answers", action="store_true")
+    args = parser.parse_args()
+
+    lines = []
+    with open('test.txt' if not args.test else 'sample.txt') as f:
         readings = [int(reading.strip()) for reading in f.readlines()]
 
     #
@@ -14,6 +22,9 @@ if __name__ == '__main__':
         if reading > prev:
             count += 1
         prev = reading
+
+    if args.test:
+        assert count == 7
     print(f'Part 1: {count}')
 
 
@@ -27,4 +38,7 @@ if __name__ == '__main__':
         if measurement > prev:
             count += 1
         prev = measurement
+
+    if args.test:
+        assert count == 5
     print(f'Part 2: {count}')
