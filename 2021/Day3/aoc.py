@@ -1,10 +1,11 @@
+import argparse
 import numpy
 from collections import Counter
 from typing import List, Tuple
 
 
-def get_oxygen(data: List[List[int]]) -> int:
-    oxygen = ''
+def get_O2_rating(data: List[List[int]]) -> int:
+    rating = ''
     for index in range(len(data)):
         counter = Counter(data[index]).most_common()
         most_common = counter[0]
@@ -14,15 +15,15 @@ def get_oxygen(data: List[List[int]]) -> int:
             if most_common[1] == least_common[1] and most_common[0] == 0:
                 most_common, least_common = least_common, most_common
 
-        oxygen += str(most_common[0])
+        rating += str(most_common[0])
         valid_column_indices = numpy.where(data[index] != most_common[0])
         data = numpy.delete(data, list(valid_column_indices), 1)
 
-    return int(oxygen, 2)
+    return int(rating, 2)
 
 
-def get_scrubber(data: List[List[int]]) -> int:
-    scrubber = ''
+def get_CO2_rating(data: List[List[int]]) -> int:
+    rating = ''
     for index in range(len(data)):
         counter = Counter(data[index]).most_common()
         most_common = counter[0]
@@ -36,11 +37,11 @@ def get_scrubber(data: List[List[int]]) -> int:
         else:
             least_common_bit = most_common[0]
 
-        scrubber += str(least_common_bit)
+        rating += str(least_common_bit)
         valid_column_indices = numpy.where(data[index] != least_common_bit)
         data = numpy.delete(data, list(valid_column_indices), 1)
 
-    return int(scrubber, 2)
+    return int(rating, 2)
 
 
 def get_power_consumption(data: List[List[int]]) -> Tuple[int, int]:
@@ -65,7 +66,11 @@ def get_power_consumption(data: List[List[int]]) -> Tuple[int, int]:
 
 
 if __name__ == '__main__':
-    with open('test.txt') as f:
+    parser = argparse.ArgumentParser('AoC')
+    parser.add_argument('-t', '--test', help="Run sample input and verify answers", action="store_true")
+    args = parser.parse_args()
+
+    with open('test.txt' if not args.test else 'sample.txt') as f:
         """
             original:
                 [0 0 1 0 0]
@@ -98,11 +103,17 @@ if __name__ == '__main__':
     # Part 1
     #
     gamma, epsilon = get_power_consumption(rotated_data)
+
+    if args.test:
+        assert gamma * epsilon == 198
     print(f'Submarine\'s power consumption = {gamma * epsilon}')
 
     #
     # Part 2
     #
-    oxygen = get_oxygen(rotated_data)
-    scrubber = get_scrubber(rotated_data)
-    print(f'Submarine\'s life support rating = {scrubber * oxygen}')
+    oxygen = get_O2_rating(rotated_data)
+    carbon_dioxide = get_CO2_rating(rotated_data)
+
+    if args.test:
+        assert carbon_dioxide * oxygen == 230
+    print(f'Submarine\'s life support rating = {carbon_dioxide * oxygen}')
