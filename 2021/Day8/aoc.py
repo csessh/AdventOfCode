@@ -64,20 +64,22 @@ def get_sum_of_output(data: List[Signal]) -> int:
                 #
                 # This digit can be: [2 3 5]
                 #
-                if len(wires.intersection(scrambler[4])) == 2 and len(wires.intersection(scrambler[1])) == 1:
-                    scrambler[2] = wires
-                elif len(wires.intersection(scrambler[1])) == 2 and len(wires.intersection(scrambler[7])) == 3:
+                if len(wires.intersection(scrambler[1])) == 1:
+                    if len(wires.intersection(scrambler[4])) == 2:
+                        scrambler[2] = wires
+                    elif len(wires.intersection(scrambler[4])) == 3:
+                        scrambler[5] = wires
+                elif len(wires.intersection(scrambler[1])) == 2:
                     scrambler[3] = wires
-                elif len(wires.intersection(scrambler[4])) == 3 and len(wires.intersection(scrambler[1])) == 1:
-                    scrambler[5] = wires
             elif len(digit) == 6:
                 #
                 # This digit can be [0 6 9]
                 #
-                if len(wires.intersection(scrambler[1])) == 1 and len(wires.intersection(scrambler[5])) == 5:
-                    scrambler[6] = wires
-                elif len(wires.intersection(scrambler[1])) == 2 and len(wires.intersection(scrambler[5])) == 5:
-                    scrambler[9] = wires
+                if len(wires.intersection(scrambler[5])) == 5:
+                    if len(wires.intersection(scrambler[1])) == 1:
+                        scrambler[6] = wires
+                    elif len(wires.intersection(scrambler[1])) == 2:
+                        scrambler[9] = wires
                 elif len(wires.intersection(scrambler[8])) == 6:
                     scrambler[0] = wires
 
