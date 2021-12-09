@@ -5,46 +5,45 @@ from queue import Queue
 from typing import List, NamedTuple
 
 
-class Point(NamedTuple):
-    value: int
+class Location(NamedTuple):
+    height: int
     row: int
     col: int
 
 
-def get_lowest_points(data: List[List[int]]) -> list[Point]:
-    width = len(data[0])
-    depth = len(data)
+def get_lowest_points(terrain: List[List[int]]) -> list[Location]:
+    width = len(terrain[0])
+    depth = len(terrain)
     points = []
 
-    for r, row in enumerate(data):
-        for c, val in enumerate(row):
+    for r, row in enumerate(terrain):
+        for c, height in enumerate(row):
             validity = [
-                val < data[r][c+1] if c+1 < width else True,
-                val < data[r][c-1] if c-1 >= 0 else True,
-                val < data[r+1][c] if r+1 < depth else True,
-                val < data[r-1][c] if r-1 >= 0 else True
+                height < terrain[r][c+1] if c+1 < width else True,
+                height < terrain[r][c-1] if c-1 >= 0 else True,
+                height < terrain[r+1][c] if r+1 < depth else True,
+                height < terrain[r-1][c] if r-1 >= 0 else True
             ]
 
-            if False not in validity:
-                points.append(Point(val, r, c))
+            if all(validity):
+                points.append(Location(height, r, c))
     return points
 
 
-def get_largest_basins(lowest_points: List[Point], data: List[List[int]], top: int=3) -> List[int]:
-    width = len(data[0])
-    depth = len(data)
+def get_largest_basins(lowest_points: List[Location], terrain: List[List[int]], top: int=3) -> List[int]:
+    width = len(terrain[0])
+    depth = len(terrain)
     basins = []
 
-    for point in lowest_points:
+    for location in lowest_points:
         visited = set()
-
         scout = Queue()
-        scout.put(point)
+        scout.put(location)
 
         while not scout.empty():
             location = scout.get()
 
-            if location.value == 9:
+            if location.height == 9:
                 continue
 
             if (location.row, location.col) in visited:
@@ -52,49 +51,53 @@ def get_largest_basins(lowest_points: List[Point], data: List[List[int]], top: i
 
             visited.add((location.row, location.col))
 
+            # Eastern neighbour
             if location.col+1 < width:
-                adjacent_val = data[location.row][location.col+1]
-                if adjacent_val > location.value:
-                    loc = Point(
-                        value=adjacent_val,
-                        row=location.row,
-                        col=location.col+1
+                adjacent_val = terrain[location.row][location.col+1]
+                if adjacent_val > location.height:
+                    scout.put(
+                        Location(
+                            height=adjacent_val,
+                            row=location.row,
+                            col=location.col+1
+                        )
                     )
 
-                    scout.put(loc)
-
+            # Western neighbour
             if location.col-1 >= 0:
-                adjacent_val = data[location.row][location.col-1]
-                if adjacent_val > location.value:
-                    loc = Point(
-                        value=adjacent_val,
-                        row=location.row,
-                        col=location.col-1
+                adjacent_val = terrain[location.row][location.col-1]
+                if adjacent_val > location.height:
+                    scout.put(
+                        Location(
+                            height=adjacent_val,
+                            row=location.row,
+                            col=location.col-1
+                        )
                     )
 
-                    scout.put(loc)
-
+            # Souther neighbour
             if location.row+1 < depth:
-                adjacent_val = data[location.row+1][location.col]
-                if adjacent_val > location.value:
-                    loc = Point(
-                        value=adjacent_val,
-                        row=location.row+1,
-                        col=location.col
+                adjacent_val = terrain[location.row+1][location.col]
+                if adjacent_val > location.height:
+                    scout.put(
+                        Location(
+                            height=adjacent_val,
+                            row=location.row+1,
+                            col=location.col
+                        )
                     )
 
-                    scout.put(loc)
-
+            # Northern neighbour
             if location.row-1 >= 0:
-                adjacent_val = data[location.row-1][location.col]
-                if adjacent_val > location.value:
-                    loc = Point(
-                        value=adjacent_val,
-                        row=location.row-1,
-                        col=location.col
+                adjacent_val = terrain[location.row-1][location.col]
+                if adjacent_val > location.height:
+                    scout.put(
+                        Location(
+                            height=adjacent_val,
+                            row=location.row-1,
+                            col=location.col
+                        )
                     )
-
-                    scout.put(loc)
 
         basins.append(len(visited))
     return sorted(basins)[-top:]
@@ -105,21 +108,20 @@ if __name__ == '__main__':
     parser.add_argument('-t', '--test', help="Run sample input and verify answers", action="store_true")
     args = parser.parse_args()
 
-    lines = []
     with open('test.txt' if not args.test else 'sample.txt') as f:
-        data = numpy.array(
+        terrain = numpy.array(
             [
                 list(map(int, list(val.strip())))
                 for val in [line for line in f.readlines()]
             ]
         )
 
-    points = get_lowest_points(data)
-    basins = get_largest_basins(points, data)
+    points = get_lowest_points(terrain)
+    basins = get_largest_basins(points, terrain)
 
     if args.test:
-        assert sum([x.value+1 for x in points]) == 15
+        assert sum([x.height+1 for x in points]) == 15
         assert math.prod(basins) == 1134
     else:
-        print(f'Part 1: {sum([x.value+1 for x in points])}')
+        print(f'Part 1: {sum([x.height+1 for x in points])}')
         print(f'Part 2: {math.prod(basins)}')
