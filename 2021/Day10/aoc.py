@@ -62,7 +62,6 @@ if __name__ == '__main__':
     parser.add_argument('-t', '--test', help="Run sample input and verify answers", action="store_true")
     args = parser.parse_args()
 
-    lines = []
     with open('test.txt' if not args.test else 'sample.txt') as f:
         data = numpy.array(
             [line.strip() for line in f.readlines()]
