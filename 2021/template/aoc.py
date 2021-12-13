@@ -10,7 +10,6 @@ if __name__ == '__main__':
     parser.add_argument('-t', '--test', help="Run sample input and verify answers", action="store_true")
     args = parser.parse_args()
 
-    lines = []
     with open('test.txt' if not args.test else 'sample.txt') as f:
         pass
 
@@ -25,6 +24,11 @@ if __name__ == '__main__':
         #     for line in f.readlines()
         # ])
 
-
-    # assert part 1
-    # assert part 2
+    if args.test:
+        # assert part 1
+        # assert part 2
+        pass
+    else:
+        # print(f'Part 1: {}')
+        # print(f'Part 2: {}')
+        pass
