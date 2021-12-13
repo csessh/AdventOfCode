@@ -16,6 +16,24 @@ def walk(network, seen, cave, count):
     seen[cave] = False
 
 
+def delve(network, seen, cave, count):
+    if cave not in seen and cave.islower():
+        seen[cave] = 0
+
+    if cave.islower():
+        seen[cave] += 1
+
+    if cave == 'end':
+        count[1] += 1
+    else:
+        for neighbour in network.get(cave, []):
+            if neighbour not in seen or seen.get(neighbour) < 2:
+                delve(network, seen, neighbour, count)
+
+    if cave.islower():
+        seen[cave] -= 1
+
+
 if __name__ == '__main__':
     parser = argparse.ArgumentParser('AoC')
     parser.add_argument('-t', '--test', help="Run sample input and verify answers", action="store_true")
@@ -43,10 +61,14 @@ if __name__ == '__main__':
     """
     print(network)
 
+    count = [0, 0]
+
     seen = {}
-    count = [0, 36]
     walk(network, seen, 'start', count)
 
+    seen = {}
+    delve(network, seen, 'start', count)
+    print(count[1])
     if args.test:
         assert count[0] == 10
         assert count[1] == 36
