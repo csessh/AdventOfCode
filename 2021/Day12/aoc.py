@@ -1,5 +1,5 @@
 import argparse
-from typing import List, Dict, NamedTuple, Set
+from typing import List, Dict
 
 
 all_part1_paths = set()
