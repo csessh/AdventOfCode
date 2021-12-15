@@ -2,22 +2,24 @@ import argparse
 from typing import List, Dict, NamedTuple, Set
 
 
-all_paths = set()
+all_part1_paths = set()
+all_part2_paths = set()
 
 
-def walk(network: Dict[str, List[str]], seen: Dict[str, bool], cave: str, count: List[int], path: List[str]):
+def walk(network: Dict[str, List[str]], seen: Dict[str, bool], cave: str, path: List[str]):
     if cave.islower():
         seen[cave] = True
 
     path.append(cave)
 
     if cave == 'end':
-        count[0] += 1
+        global all_part1_paths
+        all_part1_paths.add(tuple(path))
         print(' -> '.join(path))
     else:
         for neighbour in network.get(cave, []):
             if not seen.get(neighbour):
-                walk(network, seen, neighbour, count, path)
+                walk(network, seen, neighbour, path)
 
     path.pop()
     seen[cave] = False
@@ -32,10 +34,9 @@ def delve(network: Dict[str, List[str]], small_caves: Dict[str, int], seen: Dict
     path.append(cave)
 
     if cave == 'end':
-        global all_paths
-        all_paths.add(tuple(path))
-
-        print(special, ' -> '.join(path))
+        global all_part2_paths
+        all_part2_paths.add(tuple(path))
+        print(' -> '.join(path))
     else:
         for neighbour in network.get(cave, []):
             if not seen.get(neighbour) or (neighbour == special and small_caves.get(neighbour) < 2):
@@ -80,14 +81,12 @@ if __name__ == '__main__':
             if dest.islower() and dest not in ['start', 'end'] and dest not in small_caves:
                 small_caves[dest] = 0
 
-    count = [0]
-
     #
     # Part 1
     #
     path = []
     seen = {}
-    walk(network, seen, 'start', count, path)
+    walk(network, seen, 'start', path)
 
     #
     # Part 2
@@ -95,11 +94,11 @@ if __name__ == '__main__':
     path = []
     seen = {}
     for cave in small_caves.keys():
-        delve(network, small_caves, seen, 'start', cave, count, path)
+        delve(network, small_caves, seen, 'start', cave, path)
 
     if args.test:
-        assert count[0] == 10
-        assert len(all_paths) == 36
+        assert len(all_part1_paths) == 10
+        assert len(all_part2_paths) == 36
     else:
-        print(f'Part 1: {count[0]}')
-        print(f'Part 2: {len(all_paths)}')
+        print(f'Part 1: {len(all_part1_paths)}')
+        print(f'Part 2: {len(all_part2_paths)}')
