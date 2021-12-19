@@ -5,76 +5,41 @@ from typing import List, Dict, NamedTuple
 vsum = 0
 
 
-def decode_4(data: str):
-    size = 0
-    literal = ''
-
-    while True:
-        group = data[size:size+5]
-        literal += group[1:]
-        size += 5
-
-        if int(group[0]) == 0:
-            return size
-
-
-def decode_0(data: str):
-    cbit = int(data[:15], 2)
-
-    n = 0
-    while n < cbit:
-        n += decode(data[15+n: 15+cbit])
-
-    return 15 + cbit
-
-
-def decode_1(data: str):
-    subs = int(data[:11], 2)
-
-    size = 11
-    n = 0
-    for _ in range(subs):
-        n += decode(data[size+n:])
-
-    size += n
-    return size
-
-
-def decode(packet: str):
+def decode(packet: str, idx):
     global vsum
 
-    vsum += int(packet[:3], 2)
-    type = int(packet[3:6], 2)
+    vsum += int(packet[idx:idx+3], 2)
+    type = int(packet[idx+3:idx+6], 2)
 
-    size = 6
+    idx += 6
     if type == 4:
-        print(f'V{int(packet[:3], 2)} T{type} - Literal')
+        literal = ''
 
-        size += decode_4(packet[6:])
+        while True:
+            group = packet[idx:idx+5]
+            literal += group[1:]
+            idx += 5
+
+            if int(group[0]) == 0:
+                # print(int(literal, 2))
+                break
     else:
-        print(f'V{int(packet[:3], 2)} T{type} - ', end='')
+        if int(packet[idx]) == 0:
+            idx += 1
+            bit_count = int(packet[idx:idx+15], 2)
+            end_idx = idx + 15 + bit_count
+            idx += 15
 
-        if type == 0:
-            print('Sum')
-        elif type == 1:
-            print('product')
-        elif type == 2:
-            print('minimum')
-        elif type == 3:
-            print('maximum')
-        elif type == 5:
-            print('greater')
-        elif type == 6:
-            print('less')
-        elif type == 7:
-            print('equal')
+            while idx < end_idx:
+                idx = decode(packet, idx)
+        elif int(packet[idx]) == 1:
+            idx += 1
+            sub_count = int(packet[idx:idx+11], 2)
+            idx += 11
 
-
-        if int(packet[6]) == 0:
-            size += decode_0(packet[7:]) + 1
-        elif int(packet[6]) == 1:
-            size += decode_1(packet[7:]) + 1
-    return size
+            for _ in range(sub_count):
+                idx = decode(packet, idx)
+    return idx
 
 
 if __name__ == '__main__':
@@ -106,9 +71,10 @@ if __name__ == '__main__':
             011 000 1 00000000010 000 000 0 000000000010110 0001000101010110001011 001 000 1 00000000010 000-100-01100 011-100-01101 [00]
             V3  T0  1   2 subs    V0  T0  0      22 bits
         """
-        result = decode(line)
+        result = decode(line, 0)
 
-    # assert vsum == 12
+    if args.test:
+        assert vsum == 31
 
     print(f'Part 1: {vsum}')
     print(f'Part 2: {result}')
