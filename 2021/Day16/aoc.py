@@ -1,8 +1,19 @@
 import argparse
+import math
 from typing import List, Dict, NamedTuple
 
 
 vsum = 0
+OPS = [
+    sum,
+    math.prod,
+    min,
+    max,
+    lambda i: i[0],
+    lambda i: 1 if i[0] > i[1] else 0,
+    lambda i: 1 if i[0] < i[1] else 0,
+    lambda i: 1 if i[0] == i[1] else 0
+]
 
 
 def decode(packet: str, idx):
@@ -12,16 +23,16 @@ def decode(packet: str, idx):
     type = int(packet[idx+3:idx+6], 2)
 
     idx += 6
+    literals = []
     if type == 4:
-        literal = ''
-
+        binary = ''
         while True:
             group = packet[idx:idx+5]
-            literal += group[1:]
+            binary += group[1:]
             idx += 5
 
             if int(group[0]) == 0:
-                # print(int(literal, 2))
+                literals.append(int(binary, 2))
                 break
     else:
         if int(packet[idx]) == 0:
@@ -31,15 +42,19 @@ def decode(packet: str, idx):
             idx += 15
 
             while idx < end_idx:
-                idx = decode(packet, idx)
+                idx, val = decode(packet, idx)
+                literals.append(val)
         elif int(packet[idx]) == 1:
             idx += 1
             sub_count = int(packet[idx:idx+11], 2)
             idx += 11
 
             for _ in range(sub_count):
-                idx = decode(packet, idx)
-    return idx
+                idx, val = decode(packet, idx)
+                literals.append(val)
+
+    value = OPS[type](literals)
+    return idx, value
 
 
 if __name__ == '__main__':
@@ -71,10 +86,8 @@ if __name__ == '__main__':
             011 000 1 00000000010 000 000 0 000000000010110 0001000101010110001011 001 000 1 00000000010 000-100-01100 011-100-01101 [00]
             V3  T0  1   2 subs    V0  T0  0      22 bits
         """
-        result = decode(line, 0)
+    _, result = decode(line, 0)
 
-    if args.test:
-        assert vsum == 31
 
     print(f'Part 1: {vsum}')
     print(f'Part 2: {result}')
