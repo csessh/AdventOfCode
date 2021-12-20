@@ -1,7 +1,6 @@
 import argparse
 import numpy
-import math
-from typing import List, Dict, NamedTuple, Tuple
+from typing import List, Tuple
 
 
 ILLEGAL_POINTS = {

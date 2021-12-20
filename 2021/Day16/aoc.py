@@ -1,6 +1,6 @@
 import argparse
 import math
-from typing import List, Dict, NamedTuple
+from typing import Tuple
 
 
 vsum = 0
@@ -16,7 +16,7 @@ OPS = [
 ]
 
 
-def decode(packet: str, idx):
+def decode(packet: str, idx) -> Tuple[int, int]:
     global vsum
 
     vsum += int(packet[idx:idx+3], 2)
