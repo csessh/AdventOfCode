@@ -2,7 +2,7 @@ import argparse
 from typing import Tuple
 
 
-def advance(velocity: Tuple[int, int],
+def launch(velocity: Tuple[int, int],
             target_x: Tuple[int, int],
             target_y: Tuple[int, int]) -> Tuple[bool, int]:
     x, y = (0, 0)
@@ -55,19 +55,19 @@ if __name__ == '__main__':
 
     for vx in range(max(tx)+1):
         for vy in range(min(ty), max(tx)):
-            sucess, peak = advance((vx, vy), tx, ty)
+            sucess, peak = launch((vx, vy), tx, ty)
             if sucess:
                 bulleyes += 1
                 if peak > max_peak:
                     max_peak = peak
 
     if args.test:
-        assert advance((9,0), tx, ty)[0] == True
-        assert advance((7,2), tx, ty)[0] == True
-        assert advance((6,3), tx, ty)[0] == True
-        assert advance((6,9), tx, ty) == (True, 45)
-        assert advance((17,-4), tx, ty)[0] == False
-        assert advance((20,20), tx, ty)[0] == False
+        assert launch((9,0), tx, ty)[0] == True
+        assert launch((7,2), tx, ty)[0] == True
+        assert launch((6,3), tx, ty)[0] == True
+        assert launch((6,9), tx, ty) == (True, 45)
+        assert launch((17,-4), tx, ty)[0] == False
+        assert launch((20,20), tx, ty)[0] == False
         assert max_peak == 45
 
     print(f'Part 1: {max_peak}')
