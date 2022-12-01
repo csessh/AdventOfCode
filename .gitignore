@@ -130,3 +130,6 @@ dmypy.json
 
 .idea
 .DS_store
+
+2022/bin/*
+2022/input/*
