@@ -2,12 +2,14 @@
 #include <fstream>
 #include <vector>
 
-int main()
+const std::string DAY = "input/day1";
+
+void main()
 {
     std::vector<unsigned int> elves = {};
     unsigned int current_count = 0;
 
-    std::ifstream file("input/day1");
+    std::ifstream file(DAY);
     if (file.is_open())
     {
         std::string line;
