@@ -97,11 +97,9 @@ unsigned int part1() {
     unsigned int score = 0;
 
     std::ifstream file(DAY);
-    if (file.is_open())
-    {
+    if (file.is_open()) {
         std::string line;
-        while (std::getline(file, line))
-        {
+        while (std::getline(file, line)) {
             score += SHAPES.at(line[2]);
             score += fight(line[0], line[2]);
         }
@@ -113,10 +111,9 @@ unsigned int part1() {
 }
 
 //--------------------------------------------------------------------------------
-void main() {
-    // Part 1
+int main() {
     std::cout << "Part 1: " << part1() << std::endl;
-
-    // Part 2
     std::cout << "Part 2: " << part2() << std::endl;
+
+    return 0;
 }

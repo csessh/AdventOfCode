@@ -133,3 +133,5 @@ dmypy.json
 
 2022/bin/*
 2022/input/*
+
+.vscode
