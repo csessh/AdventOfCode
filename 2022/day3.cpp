@@ -56,10 +56,7 @@ unsigned int part1(const std::vector<std::string> &rucksacks) {
 unsigned int part2(const std::vector<std::string> &rucksacks) {
     unsigned int priority = 0;
 
-    for (int i = 0; i < rucksacks.size(); i++) {
-        if (i % 3 != 0)
-            continue;
-
+    for (int i = 0; i < rucksacks.size(); i+=3) {
         auto elf_a = rucksacks[i];
         auto elf_b = rucksacks[i+1];
         auto elf_c = rucksacks[i+2];
