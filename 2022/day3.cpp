@@ -78,9 +78,9 @@ int main() {
     std::ifstream file(DAY);
     if (file.is_open()) {
         std::string line;
-        while (std::getline(file, line)) {
+        while (std::getline(file, line))
             rucksacks.push_back(line);
-        }
+
         file.close();
     }
 
