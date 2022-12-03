@@ -65,8 +65,7 @@ unsigned int part2(const std::vector<std::string> &rucksacks) {
         auto intersection_a_c = findCommonItems(elf_a, elf_c);
         auto common_items = findCommonItems(intersection_a_b, intersection_a_c);
 
-        if (common_items.size() > 0)
-            priority += getPriority(common_items[0]);
+        priority += getPriority(common_items[0]);
     }
 
     return priority;
