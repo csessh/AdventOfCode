@@ -2,8 +2,12 @@
 #include <iostream>
 #include <vector>
 
-//--------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------
 std::vector<std::string> split(const std::string &original, const std::string &delimiter) {
+    /// @brief This is literally the equivalent of Python split()
+    /// @param original
+    /// @param delimiter
+    /// @return an array/vector of strings splitted from the original
     std::vector<std::string> tokens;
 
     for (size_t start = 0, end; start < original.length(); start = end + delimiter.length()) {
