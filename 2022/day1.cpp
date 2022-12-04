@@ -4,6 +4,7 @@
 
 const std::string DAY = "input/day1";
 
+//--------------------------------------------------------------------------------
 int main() {
     std::vector<unsigned int> elves = {};
     unsigned int current_count = 0;

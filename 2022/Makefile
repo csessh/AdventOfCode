@@ -1,22 +1,17 @@
-all: day1 day2 day3
 
-day1: day1.o
-	g++ day1.o -o bin/day1
+SRC_FILES = $(wildcard *cpp)
+OBJ_FILES = $(patsubst %.cpp, %.o, $(SRC_FILES))
+BIN_FILES = $(patsubst %.cpp, %, $(SRC_FILES))
 
-day2: day2.o
-	g++ day2.o -o bin/day2
+CFLAG := -g -Wall -Werror -O2 -std=c++14
 
-day3: day3.o
-	g++ day3.o -o bin/day3
+all: $(BIN_FILES)
 
-day1.o: day1.cpp
-	g++ -std=c++20 -c day1.cpp
+$(BIN_FILES): %: %.o
+	g++ $(CFLAG) $< -o bin/$@
 
-day2.o: day2.cpp
-	g++ -std=c++20 -c day2.cpp
-
-day3.o: day3.cpp
-	g++ -std=c++20 -c day3.cpp
+$(OBJ_FILES): %.o: %.cpp
+	g++ $(CFLAG) -c $<
 
 clean:
 	rm -f *.o bin/*
