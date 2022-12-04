@@ -1,3 +1,4 @@
+#include "support/utils.tpp"
 #include <iostream>
 #include <fstream>
 #include <algorithm>
@@ -18,23 +19,6 @@ unsigned int getPriority(const char &item) {
         value = int(item) - UPPERCASE_OFFSET;
 
     return value;
-}
-
-//--------------------------------------------------------------------------------
-template <typename T> T findCommonItems(T &left, T &right) {
-    T common_items;
-    std::sort(left.begin(), left.end());
-    std::sort(right.begin(), right.end());
-
-    std::set_intersection(
-        left.begin(),
-        left.end(),
-        right.begin(),
-        right.end(),
-        std::back_inserter(common_items)
-    );
-
-    return common_items;
 }
 
 //--------------------------------------------------------------------------------
