@@ -1,8 +1,7 @@
 #include <iostream>
 #include <fstream>
 #include <vector>
-#include "support/utils.tpp"
-#include "support/stringop.h"
+#include "helper.h"
 
 const std::string DAY = "input/day4";
 
