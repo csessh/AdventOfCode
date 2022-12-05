@@ -21,7 +21,7 @@ int main() {
     unsigned int part1 = 0;
     unsigned int part2 = 0;
 
-    for (auto pair : assignments) {
+    for (const auto& pair : assignments) {
         auto instructions = split(pair, ",");
         auto elf_a = instructions[0];
         auto elf_b = instructions[1];

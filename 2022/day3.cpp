@@ -25,7 +25,7 @@ unsigned int get_priority(const char &item) {
 unsigned int part1(const std::vector<std::string> &rucksacks) {
     unsigned int priority = 0;
 
-    for (auto rucksack : rucksacks) {
+    for (const auto& rucksack : rucksacks) {
         auto mid_index = rucksack.length() / 2;
         auto compartment_1 = rucksack.substr(0, mid_index);
         auto compartment_2 = rucksack.substr(mid_index);
