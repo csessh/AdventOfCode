@@ -122,26 +122,26 @@ private:
 
 //--------------------------------------------------------------------------------
 void process(const Instructions &instructions, const Crates &data, const std::string &labels, bool reserve_order=false) {
-    auto pship = new CargoCrane(labels);
+    auto pCargo = new CargoCrane(labels);
 
     for (auto&& intake : data)
-        pship->load(intake);
+        pCargo->load(intake);
 
-    pship->draw();
+    pCargo->draw();
     for (auto&& command : instructions) {
         system("clear");
 
         std::cout << "Executing: " << command << std::endl;
         std::cout << std::endl;
 
-        pship->execute(command, reserve_order);
-        pship->draw();
+        pCargo->execute(command, reserve_order);
+        pCargo->draw();
 
         sleep(1);
     }
 
-    pship->read_top_labels();
-    delete pship;
+    pCargo->read_top_labels();
+    delete pCargo;
 }
 
 
