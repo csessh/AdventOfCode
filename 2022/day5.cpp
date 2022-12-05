@@ -40,7 +40,7 @@ public:
     /// @brief Part 1 requires a read of all labels of the top creates on each stack
     void read_top_labels() {
         std::cout << "Top labels: ";
-        for (auto&& stack : stacks)
+        for (const auto& stack : stacks)
             std::cout << stack.second->back()[1];
         std::cout << std::endl;
     }
@@ -48,7 +48,7 @@ public:
     /// @brief Display the current state of the Cargo ship on screen
     /// @param pretty Crates are presented in horizontal by default. Vertical stacks are prettier
     void draw() {
-        for (auto&& stack: this->stacks) {
+        for (const auto& stack: this->stacks) {
             std::cout << stack.first << ": ";
             for (auto&& crate : *stack.second) {
                 std::cout << crate << " ";
@@ -96,6 +96,7 @@ public:
         else
             this->ordered_move(quantity, source, destination);
     }
+
 private:
     void ordered_move(unsigned int &quantity, unsigned int &source, unsigned int &destination) {
         Crates temp = {};
@@ -107,7 +108,7 @@ private:
 
         std::reverse(temp.begin(), temp.end());
 
-        for (auto&& crate : temp)
+        for (const auto& crate : temp)
             this->stacks[destination]->push_back(crate);
     }
 
@@ -124,11 +125,11 @@ private:
 void process(const Instructions &instructions, const Crates &data, const std::string &labels, bool reserve_order=false) {
     auto pCargo = new CargoCrane(labels);
 
-    for (auto&& intake : data)
+    for (const auto& intake : data)
         pCargo->load(intake);
 
     pCargo->draw();
-    for (auto&& command : instructions) {
+    for (const auto& command : instructions) {
         system("clear");
 
         std::cout << "Executing: " << command << std::endl;
