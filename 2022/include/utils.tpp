@@ -7,12 +7,12 @@
 //--------------------------------------------------------------------------------
 // declarations
 //--------------------------------------------------------------------------------
-template <typename T> T findCommonItems(T &left, T &right);
+template <typename T> T find_common_items(T &left, T &right);
 
 //--------------------------------------------------------------------------------
 // Template implementations
 //--------------------------------------------------------------------------------
-template <typename T> T findCommonItems(T &left, T &right) {
+template <typename T> T find_common_items(T &left, T &right) {
     /// @brief Find the intersection of two sets.
     /// @tparam T
     /// @param left

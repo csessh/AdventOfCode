@@ -10,7 +10,7 @@ const unsigned int LOWERCASE_OFFSET = 96;
 const unsigned int UPPERCASE_OFFSET = 38;
 
 //--------------------------------------------------------------------------------
-unsigned int getPriority(const char &item) {
+unsigned int get_priority(const char &item) {
     unsigned int value = 0;
 
     if (int(item) >= int('a') && int(item) <= int('z'))
@@ -29,8 +29,8 @@ unsigned int part1(const std::vector<std::string> &rucksacks) {
         auto mid_index = rucksack.length() / 2;
         auto compartment_1 = rucksack.substr(0, mid_index);
         auto compartment_2 = rucksack.substr(mid_index);
-        auto common_items = findCommonItems(compartment_1, compartment_2);
-        priority += getPriority(common_items[0]);
+        auto common_items = find_common_items(compartment_1, compartment_2);
+        priority += get_priority(common_items[0]);
     }
 
     return priority;
@@ -45,11 +45,11 @@ unsigned int part2(const std::vector<std::string> &rucksacks) {
         auto elf_b = rucksacks[i+1];
         auto elf_c = rucksacks[i+2];
 
-        auto intersection_a_b = findCommonItems(elf_a, elf_b);
-        auto intersection_a_c = findCommonItems(elf_a, elf_c);
-        auto common_items = findCommonItems(intersection_a_b, intersection_a_c);
+        auto intersection_a_b = find_common_items(elf_a, elf_b);
+        auto intersection_a_c = find_common_items(elf_a, elf_c);
+        auto common_items = find_common_items(intersection_a_b, intersection_a_c);
 
-        priority += getPriority(common_items[0]);
+        priority += get_priority(common_items[0]);
     }
 
     return priority;

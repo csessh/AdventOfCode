@@ -69,7 +69,7 @@ int fight(const char &opponent, const char &mine)
 }
 
 //--------------------------------------------------------------------------------
-unsigned int getshape(const char &opponent, const char &guide) {
+unsigned int get_shape(const char &opponent, const char &guide) {
     char move = GUIDES.at(guide).at(opponent);
     return SHAPES.at(move);
 }
@@ -83,7 +83,7 @@ unsigned int part2() {
         std::string line;
         while (std::getline(file, line)) {
             score += POINTS.at(line[2]);
-            score += getshape(line[0], line[2]);
+            score += get_shape(line[0], line[2]);
         }
 
         file.close();

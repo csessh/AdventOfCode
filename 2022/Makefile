@@ -17,7 +17,7 @@ $(OBJ_FILES): %.o: %.cpp
 	g++ $(CFLAG) -c $< -I include
 
 $(INC_OBJ_FILES) %.o: include/%.cpp
-	g++ $(CFLAG) -c include/%.cpp
+	g++ $(CFLAG) -c $<
 
 clean:
 	rm -f *.o bin/*
