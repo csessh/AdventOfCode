@@ -3,6 +3,8 @@
 #include <vector>
 #include <map>
 #include <regex>
+#include <stdlib.h>
+#include <unistd.h>
 #include "helper.h"
 
 typedef std::vector<std::string> Instructions;
@@ -45,20 +47,15 @@ public:
 
     /// @brief Display the current state of the Cargo ship on screen
     /// @param pretty Crates are presented in horizontal by default. Vertical stacks are prettier
-    void draw(bool pretty=false) {
-        if (pretty) {
-            return;
-        }
-        else {
-            for (auto&& stack: this->stacks) {
-                std::cout << stack.first << ": ";
-                for (auto&& crate : *stack.second) {
-                    std::cout << crate << " ";
-                }
-                std::cout << std::endl;
+    void draw() {
+        for (auto&& stack: this->stacks) {
+            std::cout << stack.first << ": ";
+            for (auto&& crate : *stack.second) {
+                std::cout << crate << " ";
             }
             std::cout << std::endl;
         }
+        std::cout << std::endl;
     }
 
     /// @brief Crates are loaded and sorted into their appropriate stacks
@@ -130,8 +127,18 @@ void process(const Instructions &instructions, const Crates &data, const std::st
     for (auto&& intake : data)
         pship->load(intake);
 
-    for (auto&& command : instructions)
+    pship->draw();
+    for (auto&& command : instructions) {
+        system("clear");
+
+        std::cout << "Executing: " << command << std::endl;
+        std::cout << std::endl;
+
         pship->execute(command, reserve_order);
+        pship->draw();
+
+        sleep(1);
+    }
 
     pship->read_top_labels();
     delete pship;
@@ -167,7 +174,10 @@ int main() {
     // reverse the order of input to simulate a queue of incoming crates for the ship to load.
     std::reverse(data.begin(), data.end());
 
+    // Part 1
     process(commands, data, labels, false);
+
+    // Part 2
     process(commands, data, labels, true);
 
     return 0;
