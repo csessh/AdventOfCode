@@ -63,7 +63,7 @@ public:
     void load(const std::string &crates) {
         auto index = 0;
 
-        for (auto i=1; i <= this->size; i++) {
+        for (auto i = 1; i <= this->size; i++) {
             if (index > crates.length())
                 break;
 
@@ -100,7 +100,7 @@ public:
 private:
     void ordered_move(unsigned int &quantity, unsigned int &source, unsigned int &destination) {
         Crates temp = {};
-        for (auto i=0; i < quantity; i++) {
+        for (auto i = 0; i < quantity; i++) {
             auto crate = this->stacks[source]->back();
             this->stacks[source]->pop_back();
             temp.push_back(crate);
@@ -113,7 +113,7 @@ private:
     }
 
     void move(unsigned int &quantity, unsigned int &source, unsigned int &destination) {
-        for (auto i=0; i < quantity; i++) {
+        for (auto i = 0; i < quantity; i++) {
             auto crate = this->stacks[source]->back();
             this->stacks[source]->pop_back();
             this->stacks[destination]->push_back(crate);

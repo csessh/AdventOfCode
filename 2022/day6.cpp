@@ -6,11 +6,11 @@ const std::string DAY = "input/day6";
 
 //--------------------------------------------------------------------------------
 const unsigned int scan_for_start_of_packet_marker(const std::string data, size_t size) {
-    for (auto i=0; i < data.length()-size; i++) {
+    for (auto i = 0; i < data.length()-size; i++) {
         std::set<char> uniques;
         uniques.insert(data[i]);
 
-        for (auto j=1; j<size; j++) {
+        for (auto j = 1; j<size; j++) {
             if (uniques.find(data[i+j]) == uniques.end())
                 uniques.insert(data[i+j]);
         }
