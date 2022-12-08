@@ -6,7 +6,7 @@ BIN_FILES = $(patsubst %.cpp, %, $(SRC_FILES))
 INCLUDES = $(wildcard include/*cpp)
 INC_OBJ_FILES = $(patsubst %.cpp, %.o, $(INCLUDES))
 
-CFLAG := -g -Wall -Werror -O2 -std=c++14
+CFLAG := -g -Wall -Werror -O2 -std=c++20
 
 all: $(BIN_FILES)
 

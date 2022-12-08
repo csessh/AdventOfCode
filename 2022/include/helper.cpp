@@ -22,7 +22,7 @@ std::vector<std::string> split(const std::string &original, const std::string &d
             tokens.push_back(token);
     }
 
-    if (original.empty() || (original.size() >= delimiter.size() && original.substr(original.size() - delimiter.size()) == delimiter))
+    if (original.empty() || (original.size() >= delimiter.size() && original.starts_with(delimiter)))
         tokens.push_back("");
 
     return tokens;
