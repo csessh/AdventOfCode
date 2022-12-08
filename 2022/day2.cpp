@@ -79,7 +79,7 @@ unsigned int part2() {
     unsigned int score = 0;
 
     std::ifstream file(DAY);
-    if (file.is_open()) {
+    if (file) {
         std::string line;
         while (std::getline(file, line)) {
             score += POINTS.at(line[2]);
@@ -97,7 +97,7 @@ unsigned int part1() {
     unsigned int score = 0;
 
     std::ifstream file(DAY);
-    if (file.is_open()) {
+    if (file) {
         std::string line;
         while (std::getline(file, line)) {
             score += SHAPES.at(line[2]);

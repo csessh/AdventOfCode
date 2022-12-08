@@ -116,7 +116,6 @@ int part2(Directory* &pRoot) {
     auto REQUIRED = 30000000;
     auto free = MAX - pRoot->size;
 
-
     std::vector<int> sizes;
     std::queue<Directory*> dir;
     dir.push(pRoot);
@@ -132,7 +131,7 @@ int part2(Directory* &pRoot) {
     }
 
     std::sort(sizes.begin(), sizes.end());
-    for (auto&& size : sizes) {
+    for (auto size : sizes) {
         if (free + size >= REQUIRED)
             return size;
     }
@@ -145,7 +144,7 @@ int main() {
     std::queue<std::string> commands;
 
     std::ifstream file(DAY);
-    if (file.is_open()) {
+    if (file) {
         std::string line;
         while (std::getline(file, line))
             commands.push(line);

@@ -10,7 +10,7 @@ int main() {
     unsigned int current_count = 0;
 
     std::ifstream file(DAY);
-    if (file.is_open()) {
+    if (file) {
         std::string line;
         while (std::getline(file, line)) {
             if (line.empty()) {

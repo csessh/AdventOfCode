@@ -153,7 +153,7 @@ int main() {
     auto is_cargo_loaded = false;
 
     std::ifstream file(DAY);
-    if (file.is_open()) {
+    if (file) {
         std::string line;
         while (std::getline(file, line)) {
             if (line.empty()) {

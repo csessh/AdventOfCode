@@ -24,7 +24,7 @@ unsigned int get_marker_index(const std::string data, size_t size) {
 //--------------------------------------------------------------------------------
 int main() {
     std::ifstream file(DAY);
-    if (file.is_open()) {
+    if (file) {
         std::string line;
         while (std::getline(file, line))
             std::cout << "Marker is at index " << get_marker_index(line, 14) << std::endl;

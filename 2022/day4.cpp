@@ -10,7 +10,7 @@ int main() {
     std::vector<std::string> assignments = {};
 
     std::ifstream file(DAY);
-    if (file.is_open()) {
+    if (file) {
         std::string line;
         while (std::getline(file, line)) {
             assignments.push_back(line);
