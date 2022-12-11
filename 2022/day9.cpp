@@ -3,90 +3,160 @@
 #include <cmath>
 #include "utils.tpp"
 
+typedef std::pair<int, int> Location;
 const std::string DAY = "input/day9";
 
-class Snake {
+
+//--------------------------------------------------------------------------------
+class BodyPart {
     public:
-        std::pair<int, int> head;
-        std::pair<int, int> tail;
+        Location location;
+        BodyPart* pNext;
+        unsigned int id;
         std::vector<std::pair<int, int>> trails;
 
-        Snake() :
-        head(std::pair<int, int>(0, 0)),
-        tail(std::pair<int, int>(0, 0)) {
-            trails.push_back(head);
+
+        BodyPart(const unsigned int &pos = 0) : location(Location(0, 0)) {
+            id = pos;
+            trails.push_back(location);
+
+            if (id < 9)
+                pNext = new BodyPart(id + 1);
         }
 
-        void move_left(const int &steps) {
-            for (auto i = 0; i < steps; i++) {
-                head.first -= 1;
-
-                if (is_tail_too_far_behind()) {
-                    if (is_snakey_bent())
-                        tail.second = head.second;
-                    tail.first = head.first + 1;
-                }
-
-                if (find(trails.begin(), trails.end(), tail) == trails.end())
-                    trails.push_back(tail);
-            }
+        ~BodyPart() {
+            if (pNext)
+                delete pNext;
         }
 
-        void move_right(const int &steps) {
-            for (auto i = 0; i < steps; i++) {
-                head.first += 1;
+        void left() {
+            location.first -= 1;
 
-                if (is_tail_too_far_behind()) {
-                    if (is_snakey_bent())
-                        tail.second = head.second;
-                    tail.first = head.first - 1;
-                }
+            if (find(trails.begin(), trails.end(), location) == trails.end())
+                trails.push_back(location);
 
-                if (find(trails.begin(), trails.end(), tail) == trails.end())
-                    trails.push_back(tail);
-            }
+            if (is_next_body_part_too_far_behind())
+                pull();
         }
 
-        void move_up(const int &steps) {
-            for (auto i = 0; i < steps; i++) {
-                head.second += 1;
+        void right() {
+            location.first += 1;
 
-                if (is_tail_too_far_behind()) {
-                    if (is_snakey_bent())
-                        tail.first = head.first;
-                    tail.second = head.second - 1;
-                }
+            if (find(trails.begin(), trails.end(), location) == trails.end())
+                trails.push_back(location);
 
-                if (find(trails.begin(), trails.end(), tail) == trails.end())
-                    trails.push_back(tail);
-            }
+            if (is_next_body_part_too_far_behind())
+                pull();
         }
 
-        void move_down(const int &steps) {
-            for (auto i = 0; i < steps; i++) {
-                head.second -= 1;
+        void up() {
+            location.second += 1;
 
-                if (is_tail_too_far_behind()) {
-                    if (is_snakey_bent())
-                        tail.first = head.first;
-                    tail.second = head.second + 1;
-                }
+            if (find(trails.begin(), trails.end(), location) == trails.end())
+                trails.push_back(location);
 
-                if (find(trails.begin(), trails.end(), tail) == trails.end())
-                    trails.push_back(tail);
-            }
+            if (is_next_body_part_too_far_behind())
+                pull();
         }
+
+        void down() {
+            location.second -= 1;
+
+            if (find(trails.begin(), trails.end(), location) == trails.end())
+                trails.push_back(location);
+
+            if (is_next_body_part_too_far_behind())
+                pull();
+        }
+
     private:
-        bool is_tail_too_far_behind() {
-            auto max_distance = 2;
-            if (is_snakey_bent())
-                max_distance = 3;
+        void pull() {
+            if (!is_next_body_part_too_far_behind())
+                return;
 
-            return (abs(head.first - tail.first) + abs(head.second - tail.second)) >= max_distance;
+            if (abs(location.first - pNext->location.first) > abs(location.second - pNext->location.second)) {
+                pNext->location.second = location.second;
+                horizontal_pull();
+            } else if (abs(location.first - pNext->location.first) < abs(location.second - pNext->location.second)) {
+                pNext->location.first = location.first;
+                vertical_pull();
+            } else {
+                pNext->location.first = (location.first + pNext->location.first) / 2;
+                vertical_pull();
+            }
         }
 
-        bool is_snakey_bent() {
-            return (head.first != tail.first && head.second != tail.second);
+        void horizontal_pull() {
+            if (location.first > pNext->location.first)
+                pNext->right();
+            else
+                pNext->left();
+        }
+
+        void vertical_pull() {
+            if (location.second > pNext->location.second)
+                pNext->up();
+            else
+                pNext->down();
+        }
+
+        bool is_next_body_part_too_far_behind() {
+            if (!pNext)
+                return false;
+
+            auto max = 2;
+            if (is_snakey_bendy())
+                max = 3;
+
+            return (abs(location.first - pNext->location.first) + abs(location.second - pNext->location.second)) >= max;
+        }
+
+        bool is_snakey_bendy() {
+            if (!pNext)
+                return false;
+
+            return (location.first != pNext->location.first && location.second != pNext->location.second);
+        }
+};
+
+//--------------------------------------------------------------------------------
+class Snake {
+    public:
+        BodyPart* pHead;
+
+        Snake() : pHead(new BodyPart()) { }
+
+        ~Snake() {
+            if (pHead)
+                delete pHead;
+        }
+
+        void move(const std::string &command) {
+            std::cout << command << std::endl;
+
+            auto steps = std::atoi(&command[1]);
+
+            for (auto i = 0; i < steps; i++) {
+                if (command[0] == 'R')
+                    pHead->right();
+                else if (command[0] == 'L')
+                    pHead->left();
+                else if (command[0] == 'U')
+                    pHead->up();
+                else if (command[0] == 'D')
+                    pHead->down();
+            }
+            draw();
+            std::cout<<std::endl;
+        }
+
+    private:
+        void draw() {
+            BodyPart* pCurrent = pHead;
+            while (pCurrent) {
+                std::cout << "Part #" << pCurrent->id << " visited " << pCurrent->trails.size() << " places at least once" << std::endl;
+                pCurrent = pCurrent->pNext;
+            }
         }
 };
 
@@ -97,21 +167,10 @@ int main() {
     std::ifstream file(DAY);
     if (file) {
         std::string line;
-        while (std::getline(file, line)) {
-            auto steps = std::atoi(&line[1]);
+        while (std::getline(file, line))
+            snake.move(line);
 
-            if (line[0] == 'R')
-                snake.move_right(steps);
-            else if (line[0] == 'L')
-                snake.move_left(steps);
-            else if (line[0] == 'U')
-                snake.move_up(steps);
-            else if (line[0] == 'D')
-                snake.move_down(steps);
-        }
         file.close();
     }
-
-    std::cout << "Part 1: " << snake.trails.size() << " positions visited at least once" << std::endl;
     return 0;
 }
