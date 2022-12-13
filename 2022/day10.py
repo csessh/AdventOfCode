@@ -5,7 +5,7 @@ class Program:
         self.signal = 0
         self.sprite = self.x
 
-    def addx(self, val):
+    def addx(self, val: int):
         self.draw()
         self.cycle += 1
 
@@ -28,7 +28,7 @@ class Program:
         if (self.cycle % 40) - 20 == 0 or self.cycle == 20:
             self.signal += self.cycle * self.x
 
-    def interpret(self, command):
+    def interpret(self, command: str):
         command = command.strip()
 
         if command.startswith('addx '):
