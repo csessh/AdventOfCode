@@ -1,11 +1,13 @@
 import re
 import os
 import time
+import argparse
 from typing import Dict
 
 
 class Monkey:
     pack: Dict[int, 'Monkey'] = {}
+    supermod: int = 1
 
     def __init__(self, id: int):
         self.workload = 0
@@ -17,24 +19,25 @@ class Monkey:
         self.test_positive_target = 0
         self.test_negative_target = 0
 
-    def inspect(self):
+    def inspect(self, smoke_brake: bool=False):
         while self.items:
             self.workload += 1
 
             self._current_item = self.items.pop(0)
             self._current_item = self.recalibrate()
-            self._current_item = self._current_item // 3
+
+            if smoke_brake:
+                self._current_item = self._current_item // 3
+            else:
+                self._current_item = self._current_item % Monkey.supermod
 
             if self._current_item % self.test == 0:
-                self.throw(self._current_item, self.test_positive_target)
+                Monkey.pack[self.test_positive_target].items.append(self._current_item)
             else:
-                self.throw(self._current_item, self.test_negative_target)
-
-    def throw(self, item: int, target: int):
-        Monkey.pack[target].items.append(item)
+                Monkey.pack[self.test_negative_target].items.append(self._current_item)
 
     def __repr__(self) -> str:
-        return f'Monkey #{self.id} ({self.workload:3}) - Items {self.items}'
+        return f'Monkey #{self.id} ({self.workload:5}) - {self.items}'
 
     def recalibrate(self) -> int:
         try:
@@ -74,6 +77,7 @@ if __name__ == '__main__':
 
             elif match := re.search(r'^\s*Test: divisible by ([0-9]+)$', line):
                 current.test = int(match[1])
+                Monkey.supermod *= current.test
 
             elif match := re.search(r'^\s*If true: throw to monkey ([0-9]+)$', line):
                 current.test_positive_target = int(match[1])
@@ -81,18 +85,27 @@ if __name__ == '__main__':
             elif match := re.search(r'^\s*If false: throw to monkey ([0-9]+)$', line):
                 current.test_negative_target = int(match[1])
 
+    parser = argparse.ArgumentParser('AoC')
+    parser.add_argument('--part2', action="store_true")
+    args = parser.parse_args()
+
+    ITERATION = 10000 if args.part2 else 20
+    do_monkeys_get_breaks = not args.part2
+
     round = 0
-    while round < 20:
+    while round < ITERATION:
         os.system('clear')
         round += 1
-        print(f'Starting round #{round}')
+        print(f'Round #{round}: ')
+
         for _, v in Monkey.pack.items():
-            v.inspect()
+            v.inspect(smoke_brake=do_monkeys_get_breaks)
 
         for _, monkey in Monkey.pack.items():
             print(monkey)
 
-        # time.sleep(1)
+        if not args.part2:
+            time.sleep(0.2)
 
     workload = [monkey.workload for _, monkey in Monkey.pack.items()]
     workload.sort()
