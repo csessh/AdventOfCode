@@ -16,9 +16,9 @@ if __name__ == '__main__':
         id=int(card[0].split()[1])
         tally[id] += 1
 
-        winners=list(map(int, card[1].split(' | ')[0].split()))
-        draws=list(map(int, card[1].split(' | ')[1].split()))
-        matches=set(draws).intersection(set(winners))
+        winners=set(map(int, card[1].split(' | ')[0].split()))
+        draws=set(map(int, card[1].split(' | ')[1].split()))
+        matches=draws.intersection(winners)
 
         for i in range(id+1, id+len(matches)+1):
             if i > len(cards):
