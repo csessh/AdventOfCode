@@ -1,8 +1,4 @@
 import argparse
-import re
-import numpy
-from collections import defaultdict
-from typing import List, Dict, NamedTuple
 
 
 if __name__ == '__main__':

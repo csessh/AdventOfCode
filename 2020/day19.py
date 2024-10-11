@@ -1,7 +1,4 @@
-import queue
 import re
-from queue import Queue
-from typing import List, Set, Dict
 
 
 RULE_PATTERNS = r'([0-9]+): (?:([0-9]+ [0-9]+(?:\s*\|*\s*[0-9]+ [0-9]+)*)|(?:\"([a-z]+)\"))'
