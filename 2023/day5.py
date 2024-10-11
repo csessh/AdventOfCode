@@ -1,6 +1,5 @@
 from typing import List
 
-
 s2s: List[List[int]] = []
 s2f: List[List[int]] = []
 f2w: List[List[int]] = []
@@ -10,11 +9,11 @@ t2h: List[List[int]] = []
 h2l: List[List[int]] = []
 
 
-def read(blob: str):
+def read(blobs: List[str]):
     global s2s, s2f, f2w, w2l, l2t, t2h, h2l
-    ridiculous_map = None
+    ridiculous_map: List[List[int]] = []
 
-    for line in blob:
+    for line in blobs:
         if line == "\n":
             continue
 
@@ -87,4 +86,3 @@ if __name__ == "__main__":
             lowest_location = location
 
     print(lowest_location)
-

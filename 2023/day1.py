@@ -1,6 +1,5 @@
 import re
 
-
 # Part 1 pattern
 # PATTERN = r'[0-9]'
 

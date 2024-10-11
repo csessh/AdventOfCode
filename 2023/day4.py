@@ -1,6 +1,5 @@
 from collections import defaultdict
 
-
 if __name__ == "__main__":
     with open("input/day4", "r") as f:
         cards = f.readlines()

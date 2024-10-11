@@ -1,6 +1,6 @@
 import re
 from dataclasses import dataclass
-from typing import Tuple, List, Dict
+from typing import Dict, List, Tuple
 
 
 @dataclass()
@@ -117,4 +117,3 @@ if __name__ == "__main__":
 # ......755.
 # ...$.*....
 # .664.598..
-

@@ -1,7 +1,7 @@
-from typing import List, Tuple
+from typing import Tuple
 
 
-def count_possible_wins(race: List[Tuple[int, int]]):
+def count_possible_wins(race: Tuple[int, int]):
     time, record = race
     count = 0
 
@@ -31,4 +31,3 @@ if __name__ == "__main__":
     count = count_possible_wins(race)
 
     print(count)
-

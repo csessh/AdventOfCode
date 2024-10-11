@@ -1,4 +1,3 @@
-from typing import List
 from collections import Counter
 
 
@@ -28,7 +27,7 @@ class Card:
 
 
 class Hand:
-    def __init__(self, cards: List[str], bid: int):
+    def __init__(self, cards: str, bid: int):
         self.hand = list(map(Card, cards))
         self.bid = bid
         self._set = Counter(cards)
@@ -90,4 +89,3 @@ if __name__ == "__main__":
         print(hand, f"| rank {idx} | winning {hand.bid * (idx)}")
 
     print(result)
-

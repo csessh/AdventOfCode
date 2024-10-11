@@ -1,5 +1,5 @@
-from math import lcm
 from dataclasses import dataclass
+from math import lcm
 
 
 @dataclass(frozen=True)
