@@ -1,24 +1,17 @@
-from typing import Dict, List
-
-
 class Game:
     def __init__(self, game: str) -> None:
-        self._max_colour_counts = {
-            'red': 0,
-            'green': 0,
-            'blue': 0
-        }
+        self._max_colour_counts = {"red": 0, "green": 0, "blue": 0}
 
-        game_id, draws = game.strip().split(':')
+        game_id, draws = game.strip().split(":")
 
         _, game_id = game_id.split()
         self._id = int(game_id)
 
         self._draws = []
-        draws = draws.split('; ')
+        draws = draws.split("; ")
         for draw in draws:
             cubes = {}
-            colours = draw.strip().split(', ')
+            colours = draw.strip().split(", ")
             for colour in colours:
                 count, colour = colour.split()
                 cubes[colour] = int(count)
@@ -29,7 +22,11 @@ class Game:
 
     @property
     def minimum_cubes_required(self):
-        return self._max_colour_counts['red'], self._max_colour_counts['green'], self._max_colour_counts['blue']
+        return (
+            self._max_colour_counts["red"],
+            self._max_colour_counts["green"],
+            self._max_colour_counts["blue"],
+        )
 
     def can_this_bag_contain(self, red: int, green: int, blue: int) -> bool:
         """
@@ -37,15 +34,17 @@ class Game:
         """
         print(self._draws)
         for draw in self._draws:
-            if draw.get('red', 0) > red or \
-                draw.get('green', 0) > green or \
-                draw.get('blue', 0) > blue:
+            if (
+                draw.get("red", 0) > red
+                or draw.get("green", 0) > green
+                or draw.get("blue", 0) > blue
+            ):
                 return False
         return True
 
 
-if __name__ == '__main__':
-    with open('input/day2', 'r') as f:
+if __name__ == "__main__":
+    with open("input/day2", "r") as f:
         data = f.readlines()
 
     total = 0
@@ -56,7 +55,6 @@ if __name__ == '__main__':
             total += a._id
 
         r, g, b = a.minimum_cubes_required
-        power += r*g*b
+        power += r * g * b
 
     print(total, power)
-

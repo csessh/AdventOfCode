@@ -13,8 +13,8 @@ def count_possible_wins(race: List[Tuple[int, int]]):
     return count
 
 
-if __name__ == '__main__':
-    with open('input/day6', 'r') as f:
+if __name__ == "__main__":
+    with open("input/day6", "r") as f:
         times = list(map(int, f.readline().split()[1:]))
         distances = list(map(int, f.readline().split()[1:]))
 
@@ -31,3 +31,4 @@ if __name__ == '__main__':
     count = count_possible_wins(race)
 
     print(count)
+

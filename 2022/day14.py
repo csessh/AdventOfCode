@@ -12,7 +12,7 @@ class Location:
     y: int
 
     def __repr__(self) -> str:
-        return f'({self.x} - {self.y})'
+        return f"({self.x} - {self.y})"
 
 
 def populate(obstacles: str):
@@ -22,7 +22,7 @@ def populate(obstacles: str):
     start = None
 
     for pos in obstacles:
-        x, y = map(int, pos.split(','))
+        x, y = map(int, pos.split(","))
 
         if y > depth:
             depth = y
@@ -35,17 +35,17 @@ def populate(obstacles: str):
         end = Location(x, y)
         if start.x == end.x:
             if start.y > end.y:
-                for i in range(end.y, start.y+1):
+                for i in range(end.y, start.y + 1):
                     objects[(start.x, i)] = True
             else:
-                for i in range(start.y, end.y+1):
+                for i in range(start.y, end.y + 1):
                     objects[(start.x, i)] = True
         elif start.y == y:
             if start.x > end.x:
-                for i in range(end.x, start.x+1):
+                for i in range(end.x, start.x + 1):
                     objects[(i, start.y)] = True
             else:
-                for i in range(start.x, end.x+1):
+                for i in range(start.x, end.x + 1):
                     objects[(i, start.y)] = True
 
         start = end
@@ -63,10 +63,9 @@ def drop() -> int:
 
         settled = False
         while not settled:
-            if objects.get((location.x, location.y+1)):
-                if objects.get((location.x-1, location.y+1)):
-                    if objects.get((location.x+1, location.y+1)):
-
+            if objects.get((location.x, location.y + 1)):
+                if objects.get((location.x - 1, location.y + 1)):
+                    if objects.get((location.x + 1, location.y + 1)):
                         objects[(location.x, location.y)] = True
                         count += 1
                         settled = True
@@ -93,10 +92,15 @@ def overflow() -> int:
 
         settled = False
         while not settled:
-            if objects.get((location.x, location.y+1)) or location.y+1 == depth+2:
-                if objects.get((location.x-1, location.y+1)) or location.y+1 == depth+2:
-                    if objects.get((location.x+1, location.y+1)) or location.y+1 == depth+2:
-
+            if objects.get((location.x, location.y + 1)) or location.y + 1 == depth + 2:
+                if (
+                    objects.get((location.x - 1, location.y + 1))
+                    or location.y + 1 == depth + 2
+                ):
+                    if (
+                        objects.get((location.x + 1, location.y + 1))
+                        or location.y + 1 == depth + 2
+                    ):
                         objects[(location.x, location.y)] = True
                         count += 1
                         settled = True
@@ -119,18 +123,19 @@ def reset():
 
 
 if __name__ == "__main__":
-    with open('input/day14') as f:
-        data = [line.strip().split(' -> ') for line in f.readlines()]
+    with open("input/day14") as f:
+        data = [line.strip().split(" -> ") for line in f.readlines()]
 
     for line in data:
         populate(line)
-    print(f'Part 1: How many units of sand come to rest before sand starts flowing into the abyss below? {drop()}')
+    print(
+        f"Part 1: How many units of sand come to rest before sand starts flowing into the abyss below? {drop()}"
+    )
 
     reset()
 
     for line in data:
         populate(line)
-    print(f'Part 2: How many units of sand come to rest before the source of the sand becomes blocked? {overflow()}')
-
-
-
+    print(
+        f"Part 2: How many units of sand come to rest before the source of the sand becomes blocked? {overflow()}"
+    )

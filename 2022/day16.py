@@ -10,15 +10,18 @@ class ValveStatus(int, Enum):
 
 class Valve:
     def __init__(self, raw: str):
-        self.name = 'Unknown'
+        self.name = "Unknown"
         self.rate = 0
         self.others = []
         self.status = ValveStatus.Close
 
-        if groups := re.search(r'^Valve ([A-Z]{2}) has flow rate=(\d+); (tunnel leads to valve|tunnels lead to valves) (([A-Z]{2},*\s*)+)$', raw):
+        if groups := re.search(
+            r"^Valve ([A-Z]{2}) has flow rate=(\d+); (tunnel leads to valve|tunnels lead to valves) (([A-Z]{2},*\s*)+)$",
+            raw,
+        ):
             self.name = groups[1]
             self.rate = int(groups[2])
-            self.others = [valve.strip() for valve in groups[4].split(',')]
+            self.others = [valve.strip() for valve in groups[4].split(",")]
 
     def open(self) -> int:
         self.status = ValveStatus.Open
@@ -38,7 +41,7 @@ if __name__ == "__main__":
     valves = defaultdict()
     current = None
 
-    with open('input/day16') as f:
+    with open("input/day16") as f:
         data = [line.strip() for line in f.readlines()]
 
     for line in data:
@@ -49,19 +52,21 @@ if __name__ == "__main__":
         if not current:
             current = valve
 
-    print('\n----\n')
+    print("\n----\n")
 
     opened_valves = []
 
     timer = 0
     while timer < 30:
         timer += 1
-        print(f'\n== Minute {timer} ==')
+        print(f"\n== Minute {timer} ==")
 
         if opened_valves:
-            print(f'Valves {" and ".join([valve.name for valve in opened_valves])} are open, releasing {sum([valve.rate for valve in opened_valves])} pressure.')
+            print(
+                f'Valves {" and ".join([valve.name for valve in opened_valves])} are open, releasing {sum([valve.rate for valve in opened_valves])} pressure.'
+            )
         else:
-            print('No valves are open.')
+            print("No valves are open.")
 
         # if current.rate == 0 or current.status == ValveStatus.Open:
         #     for next_valve in current.others:

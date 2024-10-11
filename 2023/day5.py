@@ -1,4 +1,4 @@
-from typing import Dict, List
+from typing import List
 
 
 s2s: List[List[int]] = []
@@ -15,34 +15,34 @@ def read(blob: str):
     ridiculous_map = None
 
     for line in blob:
-        if line == '\n':
+        if line == "\n":
             continue
 
-        if line.strip() == 'seed-to-soil map:':
+        if line.strip() == "seed-to-soil map:":
             ridiculous_map = s2s
             continue
 
-        if line.strip() == 'soil-to-fertilizer map:':
+        if line.strip() == "soil-to-fertilizer map:":
             ridiculous_map = s2f
             continue
 
-        if line.strip() == 'fertilizer-to-water map:':
+        if line.strip() == "fertilizer-to-water map:":
             ridiculous_map = f2w
             continue
 
-        if line.strip() == 'water-to-light map:':
+        if line.strip() == "water-to-light map:":
             ridiculous_map = w2l
             continue
 
-        if line.strip() == 'light-to-temperature map:':
+        if line.strip() == "light-to-temperature map:":
             ridiculous_map = l2t
             continue
 
-        if line.strip() == 'temperature-to-humidity map:':
+        if line.strip() == "temperature-to-humidity map:":
             ridiculous_map = t2h
             continue
 
-        if line.strip() == 'humidity-to-location map:':
+        if line.strip() == "humidity-to-location map:":
             ridiculous_map = h2l
             continue
 
@@ -68,15 +68,15 @@ def from_seed_to_location(seed) -> int:
     return location
 
 
-def expand(seeds: List[int]) -> List[int]:
-    pairs = [(seeds[i], seeds[i+1]) for i in range(0, len(seeds), 2)]
+# def expand(seeds: List[int]) -> List[int]:
+#     pairs = [(seeds[i], seeds[i + 1]) for i in range(0, len(seeds), 2)]
 
 
-if __name__ == '__main__':
-    with open('input/day5', 'r') as f:
+if __name__ == "__main__":
+    with open("input/day5", "r") as f:
         data = f.readlines()
 
-    seeds = list(map(int, data[0].split(':')[1].split()))
+    seeds = list(map(int, data[0].split(":")[1].split()))
     read(data[1:])
 
     lowest_location = None
@@ -87,3 +87,4 @@ if __name__ == '__main__':
             lowest_location = location
 
     print(lowest_location)
+

@@ -7,7 +7,6 @@ from rich import print
 ILLEGAL_STR = ["ab", "cd", "pq", "xy"]
 VOWELS = "aeoiu"
 
-
 class Parser(ABC):
     @abstractmethod
     def process(self, line: str) -> bool:
@@ -27,7 +26,7 @@ class Part1(Parser):
         return False
 
     def _contains_repeating_letters(self, line: str) -> bool:
-        prev = ""
+        prev = None
         for i in line:
             if i == prev:
                 return True
@@ -55,7 +54,7 @@ class Part1(Parser):
 
 
 class Part2(Parser):
-    def _contain_repeating_pairs(self, line: str) -> bool:
+    def _contains_repeating_pairs(self, line: str) -> bool:
         for i, _ in enumerate(line):
             pair = line[i : i + 2]
 
@@ -75,7 +74,7 @@ class Part2(Parser):
         return False
 
     def process(self, line: str) -> bool:
-        if not self._contain_repeating_pairs(line):
+        if not self._contains_repeating_pairs(line):
             return False
 
         if not self._contains_repeating_letters(line):
@@ -98,8 +97,8 @@ def main():
         if parser2.process(line):
             total[1] += 1
 
-    print(f"Part 1 = { total[0] }")
-    print(f"Part 2 = { total[1] }")
+    print(f"Part 1 = {total[0]} ")
+    print(f"Part 2 = {total[1]} ")
 
 
 if __name__ == "__main__":

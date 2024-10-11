@@ -1,6 +1,5 @@
 from typing import List
 from collections import Counter
-from enum import Enum, auto
 
 
 class Card:
@@ -10,15 +9,15 @@ class Card:
         try:
             self.value = int(face)
         except ValueError:
-            if face == 'T':
+            if face == "T":
                 self.value = 10
-            elif face == 'J':
+            elif face == "J":
                 self.value = 1  # Part 1: Value = 11 | Part 2: Value = 1
-            elif face == 'Q':
+            elif face == "Q":
                 self.value = 12
-            elif face == 'K':
+            elif face == "K":
                 self.value = 13
-            elif face == 'A':
+            elif face == "A":
                 self.value = 14
 
     def __str__(self) -> str:
@@ -35,24 +34,24 @@ class Hand:
         self._set = Counter(cards)
 
         _map = {
-            '[1, 1, 1, 1, 1]': 0,
-            '[1, 1, 1, 2]': 1,
-            '[1, 2, 2]': 2,
-            '[1, 1, 3]': 3,
-            '[2, 3]': 4,
-            '[1, 4]': 5,
-            '[5]': 6
+            "[1, 1, 1, 1, 1]": 0,
+            "[1, 1, 1, 2]": 1,
+            "[1, 2, 2]": 2,
+            "[1, 1, 3]": 3,
+            "[2, 3]": 4,
+            "[1, 4]": 5,
+            "[5]": 6,
         }
 
         """
         Part 2 with Jokers
         """
-        jokers_count = self._set.pop('J', 0)
+        jokers_count = self._set.pop("J", 0)
         if jokers_count != 5:
             face, _ = self._set.most_common(1)[0]
             self._set[face] += jokers_count
         else:
-            self._set['J'] = jokers_count
+            self._set["J"] = jokers_count
         """
         Part 2 with Jokers
         """
@@ -61,9 +60,9 @@ class Hand:
         self.value = _map.get(str(_key), 0)
 
     def __repr__(self) -> str:
-        return f'{self.hand} | type {self.value} | bid {self.bid}'
+        return f"{self.hand} | type {self.value} | bid {self.bid}"
 
-    def __gt__(self, other: 'Hand') -> bool:
+    def __gt__(self, other: "Hand") -> bool:
         if self.value == other.value:
             for i in range(len(self.hand)):
                 if self.hand[i].value > other.hand[i].value:
@@ -75,8 +74,8 @@ class Hand:
         return self.value > other.value
 
 
-if __name__ == '__main__':
-    with open('input/day7', 'r') as f:
+if __name__ == "__main__":
+    with open("input/day7", "r") as f:
         game = f.readlines()
 
     hands = []
@@ -88,6 +87,7 @@ if __name__ == '__main__':
     result = 0
     for idx, hand in enumerate(sorted(hands), start=1):
         result += hand.bid * (idx)
-        print(hand, f'| rank {idx} | winning {hand.bid * (idx)}')
+        print(hand, f"| rank {idx} | winning {hand.bid * (idx)}")
 
     print(result)
+
