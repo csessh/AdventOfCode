@@ -2,7 +2,8 @@
 #include <iostream>
 #include <map>
 
-const std::string DAY = "input/day2";
+using std::string;
+const string DAY = "input/day2";
 
 const std::map<char, int> SHAPES = {
     {'X', 1}, // Rock
@@ -82,7 +83,7 @@ unsigned int part1() {
 
   std::ifstream file(DAY);
   if (file) {
-    std::string line;
+    string line;
     while (std::getline(file, line)) {
       score += SHAPES.at(line[2]);
       score += fight(line[0], line[2]);

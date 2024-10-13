@@ -7,6 +7,7 @@ from rich import print
 ILLEGAL_STR = ["ab", "cd", "pq", "xy"]
 VOWELS = "aeoiu"
 
+
 class Parser(ABC):
     @abstractmethod
     def process(self, line: str) -> bool:
