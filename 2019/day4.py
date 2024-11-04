@@ -1,4 +1,3 @@
-#!/Users/thangdo/Documents/dev/csessh/bin/python
 from itertools import groupby
 
 

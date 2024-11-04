@@ -2,8 +2,8 @@
 from typing import Tuple
 
 
-with open('test.txt', 'r') as f:
-    paths = [path.strip().split(',') for path in f.readlines()]
+with open("test.txt", "r") as f:
+    paths = [path.strip().split(",") for path in f.readlines()]
 
 
 def traverse(steps: list) -> set:
@@ -16,20 +16,20 @@ def traverse(steps: list) -> set:
         distance = int(step[1:])
 
         for i in range(0, distance):
-            if direction == 'R':
+            if direction == "R":
                 x += 1
-            elif direction == 'L':
+            elif direction == "L":
                 x -= 1
-            elif direction == 'U':
+            elif direction == "U":
                 y += 1
-            elif direction == 'D':
+            elif direction == "D":
                 y -= 1
 
             steps_taken.append(
                 (
-                    x,              # location x
-                    y,              # location y
-                    abs(x) + abs(y) # distance to center
+                    x,  # location x
+                    y,  # location y
+                    abs(x) + abs(y),  # distance to center
                 )
             )
     return set(steps_taken)
@@ -45,13 +45,13 @@ def retrace(steps: list, destination: Tuple[int, int, int]) -> int:
         distance = int(step[1:])
 
         for i in range(0, distance):
-            if direction == 'R':
+            if direction == "R":
                 x += 1
-            elif direction == 'L':
+            elif direction == "L":
                 x -= 1
-            elif direction == 'U':
+            elif direction == "U":
                 y += 1
-            elif direction == 'D':
+            elif direction == "D":
                 y -= 1
 
             count += 1
@@ -74,7 +74,10 @@ for location in cross_overs:
     steps_retraced_by_A = retrace(paths[0], location)
     steps_retraced_by_B = retrace(paths[1], location)
 
-    if minimum_distance is None or steps_retraced_by_A + steps_retraced_by_B < minimum_distance:
+    if (
+        minimum_distance is None
+        or steps_retraced_by_A + steps_retraced_by_B < minimum_distance
+    ):
         minimum_distance = steps_retraced_by_A + steps_retraced_by_B
 
 print(minimum_distance)

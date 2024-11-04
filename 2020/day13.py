@@ -2,10 +2,12 @@ from math import ceil
 from typing import Set, Tuple
 
 
-def find_the_earliest_bus(timestamp: int, buses: Set[Tuple[int, int]]) -> Tuple[int, int]:
+def find_the_earliest_bus(
+    timestamp: int, buses: Set[Tuple[int, int]]
+) -> Tuple[int, int]:
     earliest = None
     for _, busID in buses:
-        if busID == 'x':
+        if busID == "x":
             continue
 
         when = ceil(timestamp / busID) * busID
@@ -28,16 +30,19 @@ def find_the_earliest_timestamp(buses: Set[Tuple[int, int]]):
     return timestamp
 
 
-if __name__ == '__main__':
-    with open('test.txt', 'r') as f:
+if __name__ == "__main__":
+    with open("test.txt", "r") as f:
         stamp = int(f.readline())
-        ids = set((i, int(x)) for i, x in enumerate(f.readline().strip().split(',')) if x != 'x')
+        ids = set(
+            (i, int(x))
+            for i, x in enumerate(f.readline().strip().split(","))
+            if x != "x"
+        )
 
     # Part 1
     bus, departure = find_the_earliest_bus(stamp, ids)
-    print(f'Part 1: {bus * (departure - stamp)}')
+    print(f"Part 1: {bus * (departure - stamp)}")
 
     # Part 2
     timestamp = find_the_earliest_timestamp(ids)
-    print(f'Part 2: {timestamp}')
-
+    print(f"Part 2: {timestamp}")
