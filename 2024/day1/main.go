@@ -12,7 +12,7 @@ import (
 func main() {
 	data, err := elf.Slurp()
 	if err != nil {
-      panic(fmt.Sprintf("Unable to process input file: %v", err))
+		panic(fmt.Sprintf("Unable to process input file: %v", err))
 	}
 
 	left, right := process(data)
@@ -48,32 +48,31 @@ func process(data []string) ([]int, []int) {
 type IntHeap []int
 
 func part1(left []int, right []int) int {
-   sort.Ints(left)
-   sort.Ints(right)
+	sort.Ints(left)
+	sort.Ints(right)
 
-   total := 0
-   for i, loc := range left {
-      diff := loc - right[i]
-      total += max(diff, -diff)
-   }
+	total := 0
+	for i, loc := range left {
+		diff := loc - right[i]
+		total += max(diff, -diff)
+	}
 
-   fmt.Printf("Part 1: %d \n", total)
+	fmt.Printf("Part 1: %d \n", total)
 	return total
 }
 
 func part2(left []int, right []int) int {
-   score := 0
-   counter := make(map[int]int)
+	score := 0
+	counter := make(map[int]int)
 
-   for _, loc := range right {
-      counter[loc] += 1
-   }
+	for _, loc := range right {
+		counter[loc] += 1
+	}
 
-   for _, loc := range left {
-      score += loc * counter[loc]
-   }
+	for _, loc := range left {
+		score += loc * counter[loc]
+	}
 
-   fmt.Printf("Part 2: %d \n", score)
+	fmt.Printf("Part 2: %d \n", score)
 	return score
 }
-

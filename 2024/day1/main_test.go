@@ -4,8 +4,10 @@ import (
 	"testing"
 )
 
-var left = []int{3, 4, 2, 1, 3, 3}
-var right = []int{4, 3, 5, 3, 9, 3}
+var (
+	left  = []int{3, 4, 2, 1, 3, 3}
+	right = []int{4, 3, 5, 3, 9, 3}
+)
 
 func Test_part1(t *testing.T) {
 	want := 11

@@ -1,36 +1,37 @@
-#include <iostream>
 #include <fstream>
+#include <iostream>
 #include <set>
 
 const std::string DAY = "input/day6";
 
 //--------------------------------------------------------------------------------
 unsigned int get_marker_index(const std::string data, size_t size) {
-    for (auto i = 0; i < data.length()-size; i++) {
-        std::set<char> uniques;
+  for (auto i = 0; i < data.length() - size; i++) {
+    std::set<char> uniques;
 
-        for (auto j = 0; j < size; j++) {
-            if (uniques.find(data[i+j]) == uniques.end())
-                uniques.insert(data[i+j]);
-        }
-
-        if (uniques.size() == size)
-            return i+size;
+    for (auto j = 0; j < size; j++) {
+      if (uniques.find(data[i + j]) == uniques.end())
+        uniques.insert(data[i + j]);
     }
 
-    return 0;
+    if (uniques.size() == size)
+      return i + size;
+  }
+
+  return 0;
 }
 
 //--------------------------------------------------------------------------------
 int main() {
-    std::ifstream file(DAY);
-    if (file) {
-        std::string line;
-        while (std::getline(file, line))
-            std::cout << "Marker is at index " << get_marker_index(line, 14) << std::endl;
+  std::ifstream file(DAY);
+  if (file) {
+    std::string line;
+    while (std::getline(file, line))
+      std::cout << "Marker is at index " << get_marker_index(line, 14)
+                << std::endl;
 
-        file.close();
-    }
+    file.close();
+  }
 
-    return 0;
+  return 0;
 }
