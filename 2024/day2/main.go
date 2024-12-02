@@ -21,17 +21,24 @@ func main() {
 	fmt.Printf("Part 2: %d\n", actual_count)
 }
 
-func isSafe(levels []string) bool {
-	first_level, err := strconv.Atoi(levels[0])
-	if err != nil {
-		panic(fmt.Sprintf("Unexpected value in puzzle input: %v", err))
+func convertLevelsToInt(levels string) []int {
+	report := make([]int, 0, len(strings.Split(levels, " ")))
+
+	for _, val := range strings.Split(levels, " ") {
+		v, err := strconv.Atoi(val)
+		if err != nil {
+			panic(fmt.Sprintf("Unexpected value in puzzle input: %v", err))
+		}
+
+		report = append(report, v)
 	}
 
-	second_level, err := strconv.Atoi(levels[1])
-	if err != nil {
-		panic(fmt.Sprintf("Unexpected value in puzzle input: %v", err))
-	}
+	return report
+}
 
+func isSafe(levels []int) bool {
+	first_level := levels[0]
+	second_level := levels[1]
 	is_level_rising := (second_level - first_level) > 0
 
 	for i, level := range levels {
@@ -39,21 +46,13 @@ func isSafe(levels []string) bool {
 			continue
 		}
 
-		val, err := strconv.Atoi(level)
-		if err != nil {
-			panic(fmt.Sprintf("Unexpected value in puzzle input: %v", err))
-		}
+		prev := levels[i-1]
+		diff := level - prev
 
-		prev, err := strconv.Atoi(levels[i-1])
-		if err != nil {
-			panic(fmt.Sprintf("Unexpected value in puzzle input: %v", err))
-		}
-
-		if max(val-prev, prev-val) > 3 || max(val-prev, prev-val) < 1 {
+		if max(diff, -diff) > 3 || max(diff, -diff) < 1 {
 			return false
 		}
 
-		diff := val - prev
 		if diff > 0 != is_level_rising {
 			return false
 		}
@@ -66,12 +65,13 @@ func part1(data []string) (int, []string) {
 	safe_report_counter := 0
 	var bad_reports []string
 
-	for _, levels := range data {
-		report := strings.Split(levels, " ")
+	for _, row := range data {
+		report := convertLevelsToInt(row)
+
 		if isSafe(report) {
 			safe_report_counter += 1
 		} else {
-			bad_reports = append(bad_reports, levels)
+			bad_reports = append(bad_reports, row)
 		}
 	}
 
@@ -81,11 +81,11 @@ func part1(data []string) (int, []string) {
 func part2(data []string) int {
 	fixables := 0
 
-	for _, levels := range data {
-		report := strings.Split(levels, " ")
+	for _, row := range data {
+		report := convertLevelsToInt(row)
 
 		for i := range report {
-			attempt := make([]string, 0, len(report)-1)
+			attempt := make([]int, 0, len(report)-1)
 			attempt = append(attempt, report[:i]...)
 			attempt = append(attempt, report[i+1:]...)
 
