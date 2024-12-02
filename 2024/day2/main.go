@@ -21,10 +21,6 @@ func main() {
 
 func process(data []string) { }
 
-func part1() int {
-	return 0
-}
+func part1() int { return 0 }
 
-func part2() int { 
-	return 0
-}
+func part2() int { return 0 }
