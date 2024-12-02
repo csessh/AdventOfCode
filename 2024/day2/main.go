@@ -21,7 +21,7 @@ func main() {
 	fmt.Printf("Part 2: %d\n", actual_count)
 }
 
-func is_safe(levels []string) bool {
+func isSafe(levels []string) bool {
 	first_level, err := strconv.Atoi(levels[0])
 	if err != nil {
 		panic(fmt.Sprintf("Unexpected value in puzzle input: %v", err))
@@ -68,7 +68,7 @@ func part1(data []string) (int, []string) {
 
 	for _, levels := range data {
 		report := strings.Split(levels, " ")
-		if is_safe(report) {
+		if isSafe(report) {
 			safe_report_counter += 1
 		} else {
 			bad_reports = append(bad_reports, levels)
@@ -89,7 +89,7 @@ func part2(data []string) int {
 			attempt = append(attempt, report[:i]...)
 			attempt = append(attempt, report[i+1:]...)
 
-			if is_safe(attempt) {
+			if isSafe(attempt) {
 				fixables += 1
 				break
 			}
