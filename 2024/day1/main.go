@@ -45,8 +45,6 @@ func process(data []string) ([]int, []int) {
 	return left, right
 }
 
-type IntHeap []int
-
 func part1(left []int, right []int) int {
 	sort.Ints(left)
 	sort.Ints(right)
