@@ -4,7 +4,7 @@ import (
 	"testing"
 )
 
-func Test_part1(t *testing.T) {
+func TestPart1(t *testing.T) {
 	want := 11
 
 	if got := part1(); got != want {
@@ -12,7 +12,7 @@ func Test_part1(t *testing.T) {
 	}
 }
 
-func Test_part2(t *testing.T) {
+func TestPart2(t *testing.T) {
 	want := 31
 
 	if got := part2(); got != want {

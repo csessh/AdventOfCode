@@ -9,7 +9,7 @@ var (
 	right = []int{4, 3, 5, 3, 9, 3}
 )
 
-func Test_part1(t *testing.T) {
+func TestPart1(t *testing.T) {
 	want := 11
 
 	if got := part1(left, right); got != want {
@@ -17,7 +17,7 @@ func Test_part1(t *testing.T) {
 	}
 }
 
-func Test_part2(t *testing.T) {
+func TestPart2(t *testing.T) {
 	want := 31
 
 	if got := part2(left, right); got != want {
