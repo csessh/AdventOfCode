@@ -28,7 +28,7 @@ func main() {
 		_data = append(_data, []byte(line))
 	}
 
-	steps, blockages := part1(_data)
+	steps, blockages := patrol(_data)
 
 	fmt.Printf("Part 1 = %d\n", steps)
 	fmt.Printf("Part 2 = %d\n", blockages)
@@ -75,12 +75,21 @@ func getNextCoordinate(loc Location, d int) Location {
 	return Location{r, c}
 }
 
-func part1(data [][]byte) (int, int) {
+func branchCanCreateLoop(location Location, direction int, data[][]byte) bool {
+	turns := 0
+
+	if turns == 4 {
+		return true
+	}
+
+	return false
+}
+
+func patrol(data [][]byte) (int, int) {
 	location := pingSelf(data)
 	direction := UP
 	height := len(data)
 	width := len(data[0])
-	turn_counter := 0
 	potential_loops := 0
 
 	for {
@@ -99,12 +108,11 @@ func part1(data [][]byte) (int, int) {
 			break
 		} else if data[next.row][next.col] == byte('#') {
 			direction = (direction + 1) % 4
-			turn_counter += 1
-
-			if turn_counter == 4 {
+		} else {
+			if branchCanCreateLoop(location, direction, data) {
 				potential_loops += 1
 			}
-		} else {
+
 			location = next
 		}
 
