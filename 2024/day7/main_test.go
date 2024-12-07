@@ -36,7 +36,7 @@ func TestProcess(t *testing.T) {
 func TestPart1(t *testing.T) {
 	want := 3749
 
-	if got := part1(sample); got != want {
+	if got := calibrate(sample, false); got != want {
 		t.Errorf("got = %v, want %v", got, want)
 	}
 }
@@ -44,7 +44,7 @@ func TestPart1(t *testing.T) {
 func TestPart2(t *testing.T) {
 	want := 11387 
 
-	if got := part2(sample); got != want {
+	if got := calibrate(sample, true); got != want {
 		t.Errorf("got = %v, want %v", got, want)
 	}
 }
