@@ -103,7 +103,7 @@ func patrol(start Location, direction int, data Grid, explore bool) ([]Possibili
 	po := make([]Possibility, 0)
 
 	// Very hacky
-	limit := h * w * 5
+	limit := h * w 
 	var next Location
 
 	for {
