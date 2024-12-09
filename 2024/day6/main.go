@@ -2,8 +2,10 @@ package main
 
 import (
 	"fmt"
+	// "time"
 
 	elf "github.com/csessh/AdeventOfCode/helpers"
+	deepcopy "github.com/tiendc/go-deepcopy"
 )
 
 const (
@@ -13,8 +15,12 @@ const (
 	LEFT  = iota
 )
 
-type Location struct {
-	row, col int
+type Location struct{ row, col int }
+type Grid [][]byte
+type Possibility struct {
+	grid Grid
+	loc  Location
+	dir  int
 }
 
 func main() {
@@ -23,39 +29,54 @@ func main() {
 		panic(fmt.Sprintf("Unable to process input file: %v", err))
 	}
 
-	_data := make([][]byte, 0, len(data))
+	_data := make(Grid, 0, len(data))
 	for _, line := range data {
 		_data = append(_data, []byte(line))
 	}
 
-	steps, blockages := patrol(_data)
+	l, d := pingSelf(_data)
+	possibilities, steps := patrol(l, d, _data, true)
+
+	possible_loops := 0
+	for _, p := range possibilities {
+		_, s := patrol(p.loc, p.dir, p.grid, false)
+		if s == -1 {
+			possible_loops += 1
+		}
+	}
 
 	fmt.Printf("Part 1 = %d\n", steps)
-	fmt.Printf("Part 2 = %d\n", blockages)
+	fmt.Printf("Part 2 = %d\n", possible_loops)
 }
 
-func pingSelf(data [][]byte) Location {
+func pingSelf(data Grid) (Location, int) {
 	for r, row := range data {
 		for c, char := range row {
 			if char == byte('^') {
-				return Location{r, c}
+				return Location{r, c}, UP
 			}
 		}
 	}
 
-	return Location{-1, -1}
+	return Location{-1, -1}, UP
 }
 
-func display(data [][]byte) {
+func display(data Grid) {
+	fmt.Print("\033[H\033[2J")
 	for _, line := range data {
 		fmt.Println(string(line))
 	}
-
-	fmt.Println()
 }
 
 func isVisistedPath(char byte) bool {
 	return char == byte('^') || char == byte('V') || char == byte('<') || char == byte('>')
+}
+
+func isLooping(char byte, dir int) bool {
+	return (char == byte('^') && dir == UP) ||
+		(char == byte('V') && dir == DOWN) ||
+		(char == byte('<') && dir == LEFT) ||
+		(char == byte('>') && dir == RIGHT)
 }
 
 func getNextCoordinate(loc Location, d int) Location {
@@ -75,58 +96,80 @@ func getNextCoordinate(loc Location, d int) Location {
 	return Location{r, c}
 }
 
-func branchCanCreateLoop(location Location, direction int, data[][]byte) bool {
-	turns := 0
+func patrol(start Location, direction int, data Grid, explore bool) ([]Possibility, int) {
+	h := len(data)
+	w := len(data[0])
+	loc := start
+	po := make([]Possibility, 0)
 
-	if turns == 4 {
-		return true
-	}
-
-	return false
-}
-
-func patrol(data [][]byte) (int, int) {
-	location := pingSelf(data)
-	direction := UP
-	height := len(data)
-	width := len(data[0])
-	potential_loops := 0
+	// Very hacky
+	limit := h * w * 5
+	var next Location
 
 	for {
-		if direction == UP {
-			data[location.row][location.col] = byte('^')
-		} else if direction == DOWN {
-			data[location.row][location.col] = byte('V')
-		} else if direction == RIGHT {
-			data[location.row][location.col] = byte('>')
-		} else if direction == LEFT {
-			data[location.row][location.col] = byte('<')
+		limit -= 1
+		if limit <= 0 {
+			return nil, -1
 		}
 
-		next := getNextCoordinate(location, direction)
-		if next.row >= height || next.row < 0 || next.col >= width || next.col < 0 {
+		leaveTrail(&data[loc.row][loc.col], direction)
+		next = getNextCoordinate(loc, direction)
+
+		if next.row >= h || next.row < 0 || next.col >= w || next.col < 0 {
 			break
-		} else if data[next.row][next.col] == byte('#') {
+		}
+
+		if isLooping(data[next.row][next.col], direction) {
+			return nil, -1
+		}
+
+		if data[next.row][next.col] == byte('#') {
 			direction = (direction + 1) % 4
 		} else {
-			if branchCanCreateLoop(location, direction, data) {
-				potential_loops += 1
+			if explore && !isVisistedPath(data[next.row][next.col]) {
+				var new_grid Grid
+				err := deepcopy.Copy(&new_grid, &data)
+				if err != nil {
+					panic("Something wrong with deepcopy")
+				}
+
+				new_grid[next.row][next.col] = byte('#')
+				possible := Possibility{
+					grid: new_grid,
+					loc:  loc,
+					dir:  direction,
+				}
+
+				po = append(po, possible)
 			}
 
-			location = next
-		}
+			loc = next
 
+			// display(data)
+			// time.Sleep(20 * time.Millisecond)
+		}
 	}
 
-	step := 0
+	steps := 0
 	for _, line := range data {
 		for _, char := range line {
 			if isVisistedPath(char) {
-				step += 1
+				steps += 1
 			}
 		}
 	}
 
-	display(data)
-	return step, potential_loops
+	return po, steps
+}
+
+func leaveTrail(mark *byte, dir int) {
+	if dir == UP {
+		*mark = byte('^')
+	} else if dir == DOWN {
+		*mark = byte('V')
+	} else if dir == RIGHT {
+		*mark = byte('>')
+	} else if dir == LEFT {
+		*mark = byte('<')
+	}
 }
