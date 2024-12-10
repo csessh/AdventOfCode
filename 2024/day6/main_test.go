@@ -102,3 +102,18 @@ func TestLoop(t *testing.T) {
 		t.Errorf("got = %v, want %v", steps, -1)
 	}
 }
+
+func TestLoopEdge(t *testing.T) {
+	var test = Grid{
+		[]byte("..#......."),
+		[]byte(".#^....#.."),
+		[]byte("......#..."),
+	}
+
+	start_location, start_direction := pingSelf(test)
+	_, steps := patrol(start_location, start_direction, test, false)
+
+	if steps != -1 {
+		t.Errorf("got = %v, want %v", steps, -1)
+	}
+}
