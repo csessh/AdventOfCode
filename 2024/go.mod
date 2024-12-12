@@ -1,4 +1,4 @@
-module github.com/csessh/AdeventOfCode
+module github.com/csessh/AdventOfCode
 
 go 1.23.2
 

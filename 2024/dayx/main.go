@@ -3,7 +3,7 @@ package main
 import (
 	"fmt"
 
-	elf "github.com/csessh/AdeventOfCode/helpers"
+	elf "github.com/csessh/AdventOfCode/helpers"
 )
 
 func main() {
@@ -16,11 +16,10 @@ func main() {
 	fmt.Printf("Part 2 = %d\n", part2(data))
 }
 
-
 func part1(data []string) int {
 	return 0
 }
 
-func part2(data []string) int { 
+func part2(data []string) int {
 	return 0
 }

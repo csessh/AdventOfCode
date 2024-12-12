@@ -4,7 +4,7 @@ import (
 	"fmt"
 	// "time"
 
-	elf "github.com/csessh/AdeventOfCode/helpers"
+	elf "github.com/csessh/AdventOfCode/helpers"
 	deepcopy "github.com/tiendc/go-deepcopy"
 )
 
@@ -103,7 +103,7 @@ func patrol(start Location, direction int, data Grid, explore bool) ([]Possibili
 	po := make([]Possibility, 0)
 
 	// Very hacky
-	limit := h * w 
+	limit := h * w
 	var next Location
 
 	for {

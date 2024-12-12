@@ -5,7 +5,7 @@ import (
 	"strconv"
 	"strings"
 
-	elf "github.com/csessh/AdeventOfCode/helpers"
+	elf "github.com/csessh/AdventOfCode/helpers"
 )
 
 func main() {
