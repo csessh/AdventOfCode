@@ -1,10 +1,8 @@
 from __future__ import annotations
 
-from dataclasses import dataclass
-from typing import Dict, List
+from typing import List
 
 from aocd import get_data
-from rich import print
 
 
 class Part1:
