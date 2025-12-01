@@ -1,9 +1,10 @@
 MIN = 0
 MAX = 99
 RANGE = MAX - MIN + 1
+STARTING_POSITION = 50
 
 local function part1()
-  local value = 50
+  local value = STARTING_POSITION
   local password = 0
 
   for line in io.lines("puzzle.txt") do
@@ -53,26 +54,22 @@ local function count_zeros(value, step)
 end
 
 local function part2()
-  local value = 50
+  local value = STARTING_POSITION
   local password = 0
 
-  -- print("value", "line", "password")
   for line in io.lines("puzzle.txt") do
     local step = tonumber(line:sub(2))
 
     if line:match("^L") then
       password = password + count_zeros(value, -step)
-      -- print(value, line, password)
       value = value - step
     elseif line:match("^R") then
       password = password + count_zeros(value, step)
-      -- print(value, line, password)
       value = value + step
     end
 
     value = (value % RANGE + RANGE) % RANGE
   end
-  -- print(value, "---", "-")
 
   return password
 end
