@@ -138,3 +138,6 @@ dmypy.json
 *.o
 /bin/*
 puzzle.txt
+
+# Git worktrees
+.worktrees/
