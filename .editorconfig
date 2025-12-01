@@ -1,4 +1,7 @@
 root = true
+charset = utf-8
+end_of_line = lf
+insert_final_newline = true
 
 [*.py]
 indent_size = 4
@@ -19,3 +22,6 @@ indent_style = space
 [*go]
 indent_style = tab
 
+[*.lua]
+indent_size = 2
+indent_style = space
