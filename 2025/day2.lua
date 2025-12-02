@@ -57,10 +57,10 @@ local function main()
     local end_id
 
     local range = helper.split(v, "-")
-    start_id = range[1]
-    end_id = range[2]
+    start_id = tonumber(range[1])
+    end_id = tonumber(range[2])
 
-    for n = tonumber(start_id), tonumber(end_id) do
+    for n = start_id, end_id do
       if is_invalid_two_part_pattern(n) then
         part1 = part1 + n
       end
