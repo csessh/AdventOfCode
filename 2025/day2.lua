@@ -1,4 +1,4 @@
-local helper = require("utils.helper")
+local elf = require("utils.helper")
 
 local function is_invalid_two_part_pattern(n)
   local t = tostring(n)
@@ -51,12 +51,12 @@ local function main()
     file:close()
   end
 
-  local ranges = helper.split(content, ",")
+  local ranges = elf.split(content, ",")
   for _, v in ipairs(ranges) do
     local start_id
     local end_id
 
-    local range = helper.split(v, "-")
+    local range = elf.split(v, "-")
     start_id = tonumber(range[1])
     end_id = tonumber(range[2])
 

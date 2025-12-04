@@ -25,4 +25,19 @@ function M.split(str, c)
   return result
 end
 
+function M.char_at(s, i)
+  return s:sub(i, i)
+end
+
+function M.replace_at(s, i, c)
+  return s:sub(1, i - 1) .. c .. s:sub(i + 1)
+end
+
+function M.display_grid(grid)
+  for r = 1, #grid do
+    local line = grid[r]
+    print(line)
+  end
+end
+
 return M
