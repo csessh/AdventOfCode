@@ -4,74 +4,74 @@ RANGE = MAX - MIN + 1
 STARTING_POSITION = 50
 
 local function part1()
-  local value = STARTING_POSITION
-  local password = 0
+	local value = STARTING_POSITION
+	local password = 0
 
-  for line in io.lines("puzzle.txt") do
-    local step = line:sub(2)
+	for line in io.lines("puzzle.txt") do
+		local step = line:sub(2)
 
-    if line:match("^L") then
-      value = value - step
-    elseif line:match("^R") then
-      value = value + step
-    end
+		if line:match("^L") then
+			value = value - step
+		elseif line:match("^R") then
+			value = value + step
+		end
 
-    value = (value % RANGE + RANGE) % RANGE
-    if value == 0 then
-      password = password + 1
-    end
-  end
+		value = (value % RANGE + RANGE) % RANGE
+		if value == 0 then
+			password = password + 1
+		end
+	end
 
-  return password
+	return password
 end
 
 local function count_zeros(value, step)
-  local zeros = math.floor(math.abs(step) / RANGE)
-  local remainder = math.abs(step) % RANGE
-  local distance_to_zero
+	local zeros = math.floor(math.abs(step) / RANGE)
+	local remainder = math.abs(step) % RANGE
+	local distance_to_zero
 
-  if step > 0 then
-    distance_to_zero = (RANGE - value) % RANGE
-    if distance_to_zero == 0 then
-      distance_to_zero = RANGE
-    end
+	if step > 0 then
+		distance_to_zero = (RANGE - value) % RANGE
+		if distance_to_zero == 0 then
+			distance_to_zero = RANGE
+		end
 
-    if distance_to_zero <= remainder then
-      zeros = zeros + 1
-    end
-  else
-    distance_to_zero = value
-    if distance_to_zero == 0 then
-      distance_to_zero = RANGE
-    end
+		if distance_to_zero <= remainder then
+			zeros = zeros + 1
+		end
+	else
+		distance_to_zero = value
+		if distance_to_zero == 0 then
+			distance_to_zero = RANGE
+		end
 
-    if distance_to_zero <= remainder then
-      zeros = zeros + 1
-    end
-  end
+		if distance_to_zero <= remainder then
+			zeros = zeros + 1
+		end
+	end
 
-  return zeros
+	return zeros
 end
 
 local function part2()
-  local value = STARTING_POSITION
-  local password = 0
+	local value = STARTING_POSITION
+	local password = 0
 
-  for line in io.lines("puzzle.txt") do
-    local step = tonumber(line:sub(2))
+	for line in io.lines("puzzle.txt") do
+		local step = tonumber(line:sub(2))
 
-    if line:match("^L") then
-      password = password + count_zeros(value, -step)
-      value = value - step
-    elseif line:match("^R") then
-      password = password + count_zeros(value, step)
-      value = value + step
-    end
+		if line:match("^L") then
+			password = password + count_zeros(value, -step)
+			value = value - step
+		elseif line:match("^R") then
+			password = password + count_zeros(value, step)
+			value = value + step
+		end
 
-    value = (value % RANGE + RANGE) % RANGE
-  end
+		value = (value % RANGE + RANGE) % RANGE
+	end
 
-  return password
+	return password
 end
 
 local part1_result = part1()
