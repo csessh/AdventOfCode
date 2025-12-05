@@ -27,6 +27,10 @@ local function validate()
                 count = count + 1
                 break
             end
+
+            if i < r[1] then
+                break
+            end
         end
     end
 
