@@ -40,4 +40,20 @@ function M.display_grid(grid)
     end
 end
 
+function M.sum(t)
+    local s = 0
+    for _, v in ipairs(t) do
+        s = s + v
+    end
+    return s
+end
+
+function M.product(t)
+    local p = 1
+    for _, v in ipairs(t) do
+        p = p * v
+    end
+    return p
+end
+
 return M
